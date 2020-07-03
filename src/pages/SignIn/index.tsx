@@ -4,10 +4,10 @@ import { Form } from '@unform/web';
 import { FormHandles } from '@unform/core';
 import * as Yup from 'yup';
 import { Link, useHistory } from 'react-router-dom';
+import { useAuth } from '../../hooks/auth';
 
 import getValidationErrors from '../../utils/getValidationErrors';
 
-// import { useAuth } from '../../hooks/auth';
 import { useToast } from '../../hooks/toast';
 
 import Input from '../../components/Input';
@@ -18,15 +18,15 @@ import logo from '../../assets/logo.svg';
 import { Container, Content, Background, AnimatedContainer } from './styles';
 
 interface SignInFormData {
-  email: string;
+  username: string;
   password: string;
 }
 
 const SignIn: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
-  // const { signIn, user } = useAuth();
+  const { signIn } = useAuth();
   const { addToast } = useToast();
-  // const history = useHistory();
+  const history = useHistory();
 
   const handleSubmit = useCallback(
     async (data: SignInFormData) => {
@@ -44,12 +44,14 @@ const SignIn: React.FC = () => {
           abortEarly: false,
         });
 
-        // await signIn({
-        //   username: data.email,
-        //   password: data.password,
-        // });
+        const { username, password } = data;
 
-        // history.push('/dashboard');
+        await signIn({
+          username,
+          password,
+        });
+
+        history.push('/profile');
       } catch (err) {
         if (err instanceof Yup.ValidationError) {
           const errors = getValidationErrors(err);
@@ -67,7 +69,7 @@ const SignIn: React.FC = () => {
         });
       }
     },
-    [addToast],
+    [addToast, history, signIn],
   );
 
   return (

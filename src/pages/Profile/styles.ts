@@ -36,7 +36,7 @@ export const Content = styled.div`
     flex-direction: column;
 
     h1 {
-      font-size: 20px;
+      font-size: 24px;
       text-align: left;
       margin-bottom: 24px;
     }

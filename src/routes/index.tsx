@@ -13,11 +13,13 @@ import Profile from '../pages/Profile';
 const Routes: React.FC = () => (
   <Switch>
     <Route path="/" exact component={SignIn} />
+
     <Route path="/register" component={SignUp} />
+    <Route path="/register-profile/:token" component={RegisterProfile} />
+
     <Route path="/forgot" component={ForgotPassword} />
     <Route path="/reset" component={ResetPassword} />
 
-    <Route path="/register-profile" component={RegisterProfile} isPrivate />
     <Route path="/profile" component={Profile} isPrivate />
   </Switch>
 );

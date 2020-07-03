@@ -1,13 +1,12 @@
 import React, { useCallback, useRef } from 'react';
-import { FiArrowLeft, FiUser, FiLock, FiInfo } from 'react-icons/fi';
+import { FiUser, FiFileText } from 'react-icons/fi';
 import { FormHandles } from '@unform/core';
 import { Form } from '@unform/web';
 import * as Yup from 'yup';
-import { Link, useHistory } from 'react-router-dom';
+import { useRouteMatch, useHistory } from 'react-router-dom';
 
 import api from '../../services/api';
 import { useToast } from '../../hooks/toast';
-
 import getValidationErrors from '../../utils/getValidationErrors';
 
 import Input from '../../components/Input';
@@ -16,7 +15,10 @@ import Button from '../../components/Button';
 import logo from '../../assets/logo.svg';
 
 import { Container, Content, Background, AnimatedContainer } from './styles';
-import { useAuth } from '../../hooks/auth';
+
+interface TokenParams {
+  token: string;
+}
 
 interface SignUpFormData {
   fullname: string;
@@ -26,8 +28,8 @@ interface SignUpFormData {
 const SignUp: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
   const { addToast } = useToast();
-  const { user } = useAuth();
   const history = useHistory();
+  const { params } = useRouteMatch<TokenParams>();
 
   const handleSubmit = useCallback(
     async (data: SignUpFormData) => {
@@ -44,17 +46,24 @@ const SignUp: React.FC = () => {
         });
 
         const { fullname, description } = data;
-        const { username } = user;
+        const { token } = params;
 
-        await api.post('registerprofile', {
-          fullname,
-          username,
-          description,
-          genres: [1, 4, 6],
-        });
+        await api.post(
+          'registerprofile',
+          {
+            fullname,
+            description,
+            image: null,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          },
+        );
 
         // Vai pro dashboard
-        // history.push('/');
+        history.push('/');
 
         addToast({
           type: 'success',
@@ -91,7 +100,11 @@ const SignUp: React.FC = () => {
             <h1>Finalizar cadastro</h1>
 
             <Input name="fullname" icon={FiUser} placeholder="Nome" />
-            <Input name="description" icon={FiInfo} placeholder="Descrição" />
+            <Input
+              name="description"
+              icon={FiFileText}
+              placeholder="Descrição"
+            />
 
             <Button type="submit">Cadastrar</Button>
           </Form>

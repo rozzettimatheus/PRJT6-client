@@ -23,6 +23,10 @@ interface SignUpFormData {
   password: string;
 }
 
+interface TokenResponse {
+  access_token: string;
+}
+
 const SignUp: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
   const { addToast } = useToast();
@@ -44,14 +48,34 @@ const SignUp: React.FC = () => {
           abortEarly: false,
         });
 
+        const { username, password } = data;
+
+        // api - get token
+        await api.post('register', {
+          username,
+          password,
+        });
+
+        const response = await api.post<TokenResponse>(
+          'auth/token',
+          `username=${username}&password=${password}&grant_type=password`,
+          {
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded',
+              Authorization: 'Basic Y29tLmNpbmVwbHVzLmRldjo=',
+            },
+          },
+        );
+
+        const { access_token } = response.data;
+
         addToast({
           type: 'success',
           title: 'Username disponível!',
           description: 'Por favor, conclua o cadastro no CinePlus',
         });
-        await signIn(data);
 
-        history.push('/register-profile');
+        history.push(`/register-profile/${access_token}`);
       } catch (err) {
         if (err instanceof Yup.ValidationError) {
           const errors = getValidationErrors(err);
@@ -68,7 +92,7 @@ const SignUp: React.FC = () => {
         });
       }
     },
-    [addToast, history],
+    [addToast, history, signIn],
   );
 
   return (

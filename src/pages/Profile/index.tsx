@@ -28,7 +28,7 @@ const Profile: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
   const { addToast } = useToast();
   const history = useHistory();
-  const { user } = useAuth();
+  // const { user } = useAuth();
 
   const handleSubmit = useCallback(
     async (data: ProfileFormData) => {
@@ -172,8 +172,6 @@ const Profile: React.FC = () => {
           />
 
           <Button type="submit">Confirmar mudanças</Button>
-
-          <a href="forgot">Esqueci minha senha</a>
         </Form>
       </Content>
     </Container>

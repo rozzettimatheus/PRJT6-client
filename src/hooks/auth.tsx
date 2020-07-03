@@ -1,5 +1,4 @@
 import React, { createContext, useCallback, useState, useContext } from 'react';
-import qs from 'qs';
 
 import api from '../services/api';
 
@@ -42,15 +41,9 @@ export const AuthProvider: React.FC = ({ children }) => {
     return {} as AuthData;
   });
 
-  const signIn = useCallback(async ({ username: email, password }) => {
-    const registerResponse = await api.post('register', {
-      username: email,
-      password,
-    });
-
-    const { username } = registerResponse.data;
-
-    const tokenResponse = await api.post(
+  const signIn = useCallback(async ({ username, password }) => {
+    console.log(username, password);
+    const response = await api.post(
       'auth/token',
       `username=${username}&password=${password}&grant_type=password`,
       {
@@ -61,8 +54,9 @@ export const AuthProvider: React.FC = ({ children }) => {
       },
     );
 
-    const { access_token } = tokenResponse.data;
+    const { access_token } = response.data;
 
+    // api call - get user
     const user: User = {
       username,
     };

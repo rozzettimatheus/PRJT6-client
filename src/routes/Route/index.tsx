@@ -6,30 +6,25 @@ import {
 } from 'react-router-dom';
 
 import { useAuth } from '../../hooks/auth';
+import Main from '../../layout/Main';
+import Auth from '../../layout/Auth';
 
 interface RouteProps extends ReactDOMRouteProps {
   isPrivate?: boolean;
+  registerPage?: boolean;
   component: React.ComponentType;
 }
 
-/**
- * 4 possíveis lógicas (autenticado?/privado?)
- *  - true/true = OK
- *  - false/false = OK
- *  - false/true = redirecionar para o login
- *  - true/false = redirecionar para o dashboard
- */
-
 const Route: React.FC<RouteProps> = ({
   isPrivate = false,
+  // registerPage = false,
   component: Component,
   ...rest
 }) => {
   const { user } = useAuth();
+  // const user = 'null';
+  // const Layout: React.FC = !user || registerPage ? Auth : Main;
 
-  /**
-   * location - para manter o histórico
-   */
   return (
     <ReactDOMRoute
       {...rest}
