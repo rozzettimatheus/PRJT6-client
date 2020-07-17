@@ -3,10 +3,10 @@ import { shade } from 'polished';
 
 export const Container = styled.button`
   background: var(--purple);
-  height: 56px;
-  border-radius: 7px;
+  height: 48px;
+  border-radius: var(--border-radius);
   border: 0;
-  padding: 0 16px;
+  padding: 0 14px;
   width: 100%;
 
   color: var(--white);
@@ -16,6 +16,6 @@ export const Container = styled.button`
   transition: background-color 0.2s;
 
   &:hover {
-    background: ${shade(0.2, '#7159c1')};
+    background: ${shade(0.2, '#bb86fc')};
   }
 `;

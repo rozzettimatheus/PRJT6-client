@@ -9,19 +9,19 @@ interface ContainerProps {
 }
 
 export const Container = styled.div<ContainerProps>`
-  background: var(--quaternary);
-  border-radius: 7px;
-  padding: 16px;
+  background: var(--input-color);
+  border-radius: var(--border-radius);
+  padding: 14px;
   width: 100%;
 
-  border: 2px solid var(--quaternary); /** mostrar erro e focus */
-  color: var(--tertiary);
+  border: 2px solid var(--input-color); /** mostrar erro e focus */
+  color: var(--text-darken);
 
   /* ordem aqui importa - focus */
   ${props =>
     props.isFailed &&
     css`
-      border-color: #c53030;
+      border-color: var(--error);
     `}
 
   ${props =>
@@ -58,7 +58,7 @@ export const Container = styled.div<ContainerProps>`
   }
 
   svg {
-    margin-right: 16px; /** margin vai aqui pq se nao houver icone, nao tem margem */
+    margin-right: 14px; 
   }
 `;
 

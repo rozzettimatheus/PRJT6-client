@@ -8,26 +8,42 @@ export default createGlobalStyle`
     box-sizing: border-box;
   }
 
+  html {
+    font-size: 62.5%;
+  }
+
   :root {
-    --primary: #292929;
-    --secondary: #979797;
-    --tertiary: #777777;
-    --quaternary: #353535;
-    --quinary: #333;
+    --bg: #292929;
+    --bg-nav: #262626;
+    --input-color: #353535;
+    --hover-color: #313131;
+    --border-color: #3a3a3a;
+
+    --text: #dad7d2; 
+    --text-accent: #f4ede8;
+    --text-darken: #777777;
+
+    --error: #f44336;
+    --success: #078714;
+    --edit-icon: #999999;
+    --close-icon: #666666;
     --white: #fff;
     --black: #000;
-    --purple: #7159c1;
+    --purple: #bb86fc;
+
+    --border-radius: 5px;
+    --nav-size: 60px;
   }
 
   body {
-    background: var(--primary);
+    background: var(--bg);
     color: var(--white);
     -webkit-font-smoothing: antialiased;
   }
 
   body, input, button {
     font-family: 'Roboto', sans-serif;
-    font-size: 16px;
+    font-size: 1.6rem;
   }
 
   #root {
@@ -41,5 +57,15 @@ export default createGlobalStyle`
 
   button {
     cursor: pointer;
+  }
+
+  a {
+    text-decoration: none;
+  }
+
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
   }
 `;

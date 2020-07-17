@@ -21,16 +21,18 @@ const Route: React.FC<RouteProps> = ({
   component: Component,
   ...rest
 }) => {
-  const { user } = useAuth();
-  // const user = 'null';
-  // const Layout: React.FC = !user || registerPage ? Auth : Main;
+  // const { user } = useAuth();
+  const user = true;
+  const Layout: React.FC = !user ? Auth : Main;
 
   return (
     <ReactDOMRoute
       {...rest}
       render={({ location }) => {
         return isPrivate === !!user ? (
-          <Component />
+          <Layout>
+            <Component />
+          </Layout>
         ) : (
           <Redirect
             to={{
