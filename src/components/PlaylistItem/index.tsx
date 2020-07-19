@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import {
   Container,
@@ -14,9 +14,24 @@ import {
 
 interface Props {
   page: string;
+  title: string;
+  items: number;
+  followers: number;
+  isPrivate?: boolean;
+  isDeletable?: boolean;
 }
 
-const PlaylistItem: React.FC<Props> = ({ page }) => {
+const PlaylistItem: React.FC<Props> = ({
+  page,
+  title,
+  items,
+  followers,
+  isPrivate,
+  isDeletable,
+}) => {
+  const formatItems = useMemo(() => {}, []);
+  const formatFollowers = useMemo(() => {}, []);
+
   return (
     <Container to={page}>
       <div>
@@ -33,24 +48,25 @@ const PlaylistItem: React.FC<Props> = ({ page }) => {
           <PlaylistInfo>
             <Info>
               <div>
-                <strong>Best Terror Movies</strong>
-                <LockIcon />
+                <strong>{title}</strong>
+                {isPrivate && <LockIcon />}
               </div>
               <UserNumbers>
                 <span>
-                  <strong>20</strong> itens salvos | <strong>20</strong>{' '}
-                  seguidores
+                  <strong>{items}</strong> itens salvos |{' '}
+                  <strong>{followers}</strong> seguidores
                 </span>
               </UserNumbers>
             </Info>
           </PlaylistInfo>
         </PlaylistInfoContainer>
-        <Delete>
-          {/* eslint-disable-next-line no-console */}
-          <button type="button" onClick={() => console.log('excluiu')}>
-            <DeleteIcon />
-          </button>
-        </Delete>
+        {isDeletable && (
+          <Delete>
+            <button type="button" onClick={() => console.log('excluiu')}>
+              <DeleteIcon />
+            </button>
+          </Delete>
+        )}
       </div>
     </Container>
   );

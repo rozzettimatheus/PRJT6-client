@@ -35,10 +35,10 @@ const Profile: React.FC = () => {
         </PlaylistHeader>
 
         <PlaylistsContainer>
-          <PlaylistItem page="/movies" />
+          {/* <PlaylistItem page="/movies" />
           <PlaylistItem page="" />
           <PlaylistItem page="" />
-          <PlaylistItem page="" />
+          <PlaylistItem page="" /> */}
         </PlaylistsContainer>
       </Main>
     </Wrapper>

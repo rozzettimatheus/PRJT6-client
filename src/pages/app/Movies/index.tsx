@@ -7,8 +7,6 @@ import Wrapper from '../../../components/Wrapper';
 import DropdownItem from '../../../components/DropdownItem';
 import Loader from '../../../components/Loader';
 
-import poster from '../../../assets/poster.jpg';
-
 import {
   GenresContainer,
   GenresSelect,
@@ -22,18 +20,26 @@ import {
   Player,
 } from './styles';
 
-const iterate = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-const sections = [1, 2, 3];
-
 interface GenresData {
   name: string;
   id: number;
+}
+
+interface MoviePosterData {
+  id: number;
+  poster_path: string;
+}
+
+interface MovieSectionData {
+  title: string;
+  films: MoviePosterData[];
 }
 
 const Movies: React.FC = () => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [genres, setGenres] = useState<GenresData[]>([]);
+  const [sections, setSections] = useState<MovieSectionData[]>([]);
   const [videoId, setVideoId] = useState('');
 
   const toggleDropdown = useCallback(() => {
@@ -47,19 +53,25 @@ const Movies: React.FC = () => {
   }, [open]);
 
   useEffect(() => {
-    setTimeout(() => {
-      setLoading(false);
-    }, 1500);
-  }, [loading]);
-
-  useEffect(() => {
     // get genres
     api.get('/genres/list').then(response => setGenres(response.data));
 
     // get video url
     api.get('/movies/toptrending/video').then(response => {
-      const url = getVideoIDFromURL(response.data);
-      setVideoId(url);
+      const { url } = response.data;
+      setVideoId(getVideoIDFromURL(url));
+    });
+
+    api.get('movies/popular').then(response => {
+      const movies = response.data;
+      const moviesArray = Object.keys(movies).map(key => {
+        return {
+          title: key,
+          films: movies[key],
+        };
+      });
+      setSections(moviesArray);
+      setLoading(false);
     });
   }, []);
 
@@ -93,13 +105,16 @@ const Movies: React.FC = () => {
 
       <MoviesContainer>
         {sections.map(section => (
-          <GenreSection>
+          <GenreSection key={section.title}>
             <GenreTitle>
-              <h3>Ação</h3>
+              <h3>{section.title}</h3>
             </GenreTitle>
             <MoviesList>
-              {iterate.map(iter => (
-                <PosterCard style={{ backgroundImage: `url(${poster})` }} />
+              {section.films.map(film => (
+                <PosterCard
+                  key={film.id}
+                  style={{ backgroundImage: `url(${film.poster_path})` }}
+                />
               ))}
             </MoviesList>
           </GenreSection>

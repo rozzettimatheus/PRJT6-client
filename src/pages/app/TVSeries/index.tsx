@@ -1,10 +1,11 @@
 import React, { useState, useCallback, useEffect } from 'react';
 
+import api from '../../../services/api';
+import getVideoIDFromURL from '../../../utils/getVideoIDFromURL';
+
 import Wrapper from '../../../components/Wrapper';
 import DropdownItem from '../../../components/DropdownItem';
 import Loader from '../../../components/Loader';
-
-import poster from '../../../assets/poster.jpg';
 
 import {
   GenresContainer,
@@ -19,12 +20,27 @@ import {
   Player,
 } from './styles';
 
-const iterate = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-const sections = [1, 2, 3];
+interface GenresData {
+  name: string;
+  id: number;
+}
+
+interface SeriePosterData {
+  id: number;
+  poster_path: string;
+}
+
+interface SeriesSectionData {
+  title: string;
+  series: SeriePosterData[];
+}
 
 const TVSeries: React.FC = () => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [genres, setGenres] = useState<GenresData[]>([]);
+  const [sections, setSections] = useState<SeriesSectionData[]>([]);
+  const [videoId, setVideoId] = useState('');
 
   const toggleDropdown = useCallback(() => {
     setOpen(!open);
@@ -37,10 +53,27 @@ const TVSeries: React.FC = () => {
   }, [open]);
 
   useEffect(() => {
-    setTimeout(() => {
+    // get genres
+    api.get('/genres/list').then(response => setGenres(response.data));
+
+    // get video url
+    api.get('/tv/toptrending/video').then(response => {
+      const { url } = response.data;
+      setVideoId(getVideoIDFromURL(url));
+    });
+
+    api.get('tv/popular').then(response => {
+      const tvseries = response.data;
+      const tvseriesArray = Object.keys(tvseries).map(key => {
+        return {
+          title: key,
+          series: tvseries[key],
+        };
+      });
+      setSections(tvseriesArray);
       setLoading(false);
-    }, 1500);
-  }, [loading]);
+    });
+  }, []);
 
   if (loading) {
     return (
@@ -58,26 +91,30 @@ const TVSeries: React.FC = () => {
           <ArrowDown />
           {open && (
             <DropdownMenu>
-              <DropdownItem page="/">Ação</DropdownItem>
-              <DropdownItem page="/">Romance</DropdownItem>
-              <DropdownItem page="/">Faroeste</DropdownItem>
-              <DropdownItem page="/">Terror</DropdownItem>
+              {genres.map(genre => (
+                <DropdownItem key={genre.id} page="/">
+                  {genre.name}
+                </DropdownItem>
+              ))}
             </DropdownMenu>
           )}
         </GenresSelect>
       </GenresContainer>
 
-      <Player videoId="cVHwlqyMyhM" />
+      <Player videoId={videoId} />
 
       <TVSeriesContainer>
         {sections.map(section => (
-          <GenreSection>
+          <GenreSection key={section.title}>
             <GenreTitle>
-              <h3>Ação</h3>
+              <h3>{section.title}</h3>
             </GenreTitle>
             <TVSeriesList>
-              {iterate.map(iter => (
-                <PosterCard style={{ backgroundImage: `url(${poster})` }} />
+              {section.series.map(serie => (
+                <PosterCard
+                  key={serie.id}
+                  style={{ backgroundImage: `url(${serie.poster_path})` }}
+                />
               ))}
             </TVSeriesList>
           </GenreSection>
