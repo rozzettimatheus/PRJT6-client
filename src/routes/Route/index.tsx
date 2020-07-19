@@ -5,7 +5,7 @@ import {
   Redirect,
 } from 'react-router-dom';
 
-import { useAuth } from '../../hooks/auth';
+// import { useAuth } from '../../hooks/auth';
 import Main from '../../layout/Main';
 import Auth from '../../layout/Auth';
 
@@ -36,7 +36,7 @@ const Route: React.FC<RouteProps> = ({
         ) : (
           <Redirect
             to={{
-              pathname: isPrivate ? '/' : '/profile',
+              pathname: isPrivate ? '/' : '/movies',
               state: { from: location },
             }}
           />

@@ -3,17 +3,21 @@ import { FiLock } from 'react-icons/fi';
 import { Form } from '@unform/web';
 import { FormHandles } from '@unform/core';
 import * as Yup from 'yup';
-import { useHistory, useLocation } from 'react-router-dom';
+// import { useHistory, useLocation } from 'react-router-dom';
 
 import getValidationErrors from '../../../../utils/getValidationErrors';
 import { useToast } from '../../../../hooks/toast';
 
 import Input from '../../../../components/Input';
 import Button from '../../../../components/Button';
-import logo from '../../../../assets/logo.svg';
 
-import { Container, Content, Background, AnimatedContainer } from './styles';
-import api from '../../../../services/api';
+import {
+  Container,
+  Content,
+  Logo,
+  Background,
+  AnimatedContainer,
+} from './styles';
 
 interface ResetPasswordFormData {
   password: string;
@@ -23,8 +27,8 @@ interface ResetPasswordFormData {
 const SignIn: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
   const { addToast } = useToast();
-  const history = useHistory();
-  const location = useLocation();
+  // const history = useHistory();
+  // const location = useLocation();
 
   const handleSubmit = useCallback(
     async (data: ResetPasswordFormData) => {
@@ -78,9 +82,8 @@ const SignIn: React.FC = () => {
     <Container>
       <Content>
         <AnimatedContainer>
-          <img src={logo} alt="Cineplus" />
+          <Logo />
 
-          {/* Tudo relacionado ao form */}
           <Form ref={formRef} onSubmit={handleSubmit}>
             <h1>Resetar senha</h1>
 

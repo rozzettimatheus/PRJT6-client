@@ -12,9 +12,13 @@ import getValidationErrors from '../../../../utils/getValidationErrors';
 import Input from '../../../../components/Input';
 import Button from '../../../../components/Button';
 
-import logo from '../../../../assets/logo.svg';
-
-import { Container, Content, Background, AnimatedContainer } from './styles';
+import {
+  Container,
+  Content,
+  Logo,
+  Background,
+  AnimatedContainer,
+} from './styles';
 
 interface SignInFormData {
   username: string;
@@ -75,7 +79,7 @@ const SignIn: React.FC = () => {
     <Container>
       <Content>
         <AnimatedContainer>
-          <img src={logo} alt="Cineplus" />
+          <Logo />
 
           <Form ref={formRef} onSubmit={handleSubmit}>
             <h1>Faça seu login</h1>

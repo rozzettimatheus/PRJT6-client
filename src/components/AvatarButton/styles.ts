@@ -19,7 +19,7 @@ export const ListItem = styled.li`
     }
 
     &.active {
-      border: 1px solid var(--text);
+      border: 2px solid var(--text);
       padding: 3px;
     }
   }

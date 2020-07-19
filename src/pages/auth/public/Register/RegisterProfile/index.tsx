@@ -5,16 +5,20 @@ import { Form } from '@unform/web';
 import * as Yup from 'yup';
 import { useRouteMatch, useHistory } from 'react-router-dom';
 
-import api from '../../../../services/api';
-import { useToast } from '../../../../hooks/toast';
-import getValidationErrors from '../../../../utils/getValidationErrors';
+import api from '../../../../../services/api';
+import { useToast } from '../../../../../hooks/toast';
+import getValidationErrors from '../../../../../utils/getValidationErrors';
 
-import Input from '../../../../components/Input';
-import Button from '../../../../components/Button';
+import Input from '../../../../../components/Input';
+import Button from '../../../../../components/Button';
 
-import logo from '../../../../assets/logo.svg';
-
-import { Container, Content, Background, AnimatedContainer } from './styles';
+import {
+  Container,
+  Content,
+  Logo,
+  Background,
+  AnimatedContainer,
+} from './styles';
 
 interface TokenParams {
   token: string;
@@ -86,7 +90,7 @@ const SignUp: React.FC = () => {
         });
       }
     },
-    [addToast],
+    [addToast, history, params],
   );
 
   return (
@@ -94,7 +98,7 @@ const SignUp: React.FC = () => {
       <Background />
       <Content>
         <AnimatedContainer>
-          <img src={logo} alt="Cineplus" />
+          <Logo />
 
           <Form ref={formRef} onSubmit={handleSubmit}>
             <h1>Finalizar cadastro</h1>

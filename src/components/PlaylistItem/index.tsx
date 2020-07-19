@@ -2,28 +2,52 @@ import React from 'react';
 
 import {
   Container,
+  PlaylistInfoContainer,
+  AvatarWrapper,
   PlaylistInfo,
+  Info,
+  UserNumbers,
+  LockIcon,
   Delete,
   DeleteIcon,
-  PlaylistIcon,
-  PlaylistInfoContainer,
 } from './styles';
 
-const PlaylistItem: React.FC = () => {
+interface Props {
+  page: string;
+}
+
+const PlaylistItem: React.FC<Props> = ({ page }) => {
   return (
-    <Container>
+    <Container to={page}>
       <div>
         <PlaylistInfoContainer>
-          <div>
+          <AvatarWrapper>
             <div>
-              <PlaylistIcon />
+              <img
+                src="https://ui-avatars.com/api/?rounded=true&size=128&name=Gabriel+Matheus"
+                alt="icon"
+              />
             </div>
-          </div>
+          </AvatarWrapper>
 
-          <PlaylistInfo />
+          <PlaylistInfo>
+            <Info>
+              <div>
+                <strong>Best Terror Movies</strong>
+                <LockIcon />
+              </div>
+              <UserNumbers>
+                <span>
+                  <strong>20</strong> itens salvos | <strong>20</strong>{' '}
+                  seguidores
+                </span>
+              </UserNumbers>
+            </Info>
+          </PlaylistInfo>
         </PlaylistInfoContainer>
         <Delete>
-          <button type="button">
+          {/* eslint-disable-next-line no-console */}
+          <button type="button" onClick={() => console.log('excluiu')}>
             <DeleteIcon />
           </button>
         </Delete>

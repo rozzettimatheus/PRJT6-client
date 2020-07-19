@@ -14,11 +14,15 @@ import getValidationErrors from '../../../../utils/getValidationErrors';
 import Input from '../../../../components/Input';
 import Button from '../../../../components/Button';
 
-import logo from '../../../../assets/logo.svg';
+import {
+  Container,
+  Content,
+  Logo,
+  Background,
+  AnimatedContainer,
+} from './styles';
 
-import { Container, Content, Background, AnimatedContainer } from './styles';
-
-interface SignUpFormData {
+interface RegisterFormData {
   username: string;
   password: string;
 }
@@ -27,14 +31,14 @@ interface TokenResponse {
   access_token: string;
 }
 
-const SignUp: React.FC = () => {
+const Register: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
   const { addToast } = useToast();
   // const { signIn } = useAuth();
   const history = useHistory();
 
   const handleSubmit = useCallback(
-    async (data: SignUpFormData) => {
+    async (data: RegisterFormData) => {
       try {
         formRef.current?.setErrors({});
         const schema = Yup.object().shape({
@@ -100,7 +104,7 @@ const SignUp: React.FC = () => {
       <Background />
       <Content>
         <AnimatedContainer>
-          <img src={logo} alt="Cineplus" />
+          <Logo />
 
           <Form ref={formRef} onSubmit={handleSubmit}>
             <h1>Faça seu cadastro</h1>
@@ -126,4 +130,4 @@ const SignUp: React.FC = () => {
   );
 };
 
-export default SignUp;
+export default Register;

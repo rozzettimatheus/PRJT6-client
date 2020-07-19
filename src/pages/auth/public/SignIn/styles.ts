@@ -1,21 +1,25 @@
 import styled, { keyframes } from 'styled-components';
 import { shade } from 'polished';
 
+import { ReactComponent as LogoSVG } from '../../../../assets/logo-outlined.svg';
 import backgroundCover from '../../../../assets/background.jpg';
 
 export const Container = styled.div`
   height: 100vh;
   display: flex;
-  align-items: stretch; /** estica ao máximo */
 `;
 
 export const Content = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center; /** centralizar o form */
+  align-items: center;
   justify-content: center;
   width: 100%;
   max-width: 700px;
+`;
+
+export const Logo = styled(LogoSVG)`
+  height: 20%;
 `;
 
 const appearFromLeft = keyframes`
@@ -37,16 +41,11 @@ export const AnimatedContainer = styled.div`
   justify-content: center;
   width: 50%;
   max-width: 420px;
-  /* border: 1px solid red; */
 
   animation: ${appearFromLeft} 900ms;
 
-  > img {
-    height: 70px;
-  }
-
   form {
-    margin: 60px 0;
+    margin: 30px 0;
     width: 100%;
     text-align: center;
 
@@ -56,14 +55,14 @@ export const AnimatedContainer = styled.div`
     }
 
     a {
-      color: var(--title-lighter);
+      color: var(--text-accent);
       display: block;
       margin-top: 2.4rem;
       text-decoration: none;
       transition: color 0.3s;
 
       &:hover {
-        color: ${shade(0.2, '#f4ede8')};
+        color: ${shade(0.2, '#fafafa')};
       }
     }
   }
@@ -77,7 +76,7 @@ export const AnimatedContainer = styled.div`
     transition: color 0.3s;
 
     &:hover {
-      color: ${shade(0.2, '#7159c1')};
+      color: ${shade(0.2, '#bb86fc')};
     }
 
     svg {

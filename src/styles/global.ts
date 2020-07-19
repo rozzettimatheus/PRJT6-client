@@ -17,11 +17,13 @@ export default createGlobalStyle`
     --bg-nav: #262626;
     --input-color: #353535;
     --hover-color: #313131;
+    --card-color: #303030;
     --border-color: #3a3a3a;
 
     --text: #dad7d2; 
-    --text-accent: #f4ede8;
+    --text-accent: #fafafa;
     --text-darken: #777777;
+    --disabled-text: #555555;
 
     --error: #f44336;
     --success: #078714;
@@ -67,5 +69,12 @@ export default createGlobalStyle`
     list-style: none;
     margin: 0;
     padding: 0;
+  }
+
+  @media (max-height: 502px) {
+
+    html {
+      font-size: 50%;
+    }
   }
 `;

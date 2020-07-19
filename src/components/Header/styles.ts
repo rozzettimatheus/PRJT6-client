@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
 export const Container = styled.header`
   display: flex;
@@ -40,6 +40,18 @@ export const NavIcons = styled.ul`
   }
 `;
 
+const appearFromLeft = keyframes`
+  from {
+    opacity: 0;
+    transform: translateX(-80%);
+  } 
+
+  to {
+    opacity: 1;
+    transform: translateX(-90%);
+  }
+`;
+
 export const DropdownMenu = styled.div`
   position: absolute;
   top: 54px;
@@ -49,4 +61,7 @@ export const DropdownMenu = styled.div`
   border: 1px solid var(--border-color);
   border-radius: var(--border-radius);
   overflow: hidden;
+  transition: all 0.3s;
+
+  animation: ${appearFromLeft} 0.4s;
 `;

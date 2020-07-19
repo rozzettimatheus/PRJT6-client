@@ -20,7 +20,7 @@ import NavItem from '../NavItem';
 import AvatarButton from '../AvatarButton';
 import DropdownItem from '../DropdownItem';
 
-import logo from '../../assets/logo.svg';
+import logo from '../../assets/logo-outlined.svg';
 
 const Header: React.FC = () => {
   return (

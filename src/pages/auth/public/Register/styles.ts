@@ -1,21 +1,25 @@
 import styled, { keyframes } from 'styled-components';
 import { shade } from 'polished';
 
+import { ReactComponent as LogoSVG } from '../../../../assets/logo-outlined.svg';
 import backgroundCover from '../../../../assets/background.jpg';
 
 export const Container = styled.div`
   height: 100vh;
   display: flex;
-  align-items: stretch; /** estica ao máximo */
 `;
 
 export const Content = styled.div`
   display: flex;
   flex-direction: column;
-  place-content: center; /** justify + align */
+  align-items: center;
+  justify-content: center;
   width: 100%;
   max-width: 700px;
-  align-items: center; /** centralizar o form */
+`;
+
+export const Logo = styled(LogoSVG)`
+  height: 20%;
 `;
 
 const appearFromRight = keyframes`
@@ -32,36 +36,39 @@ const appearFromRight = keyframes`
 export const AnimatedContainer = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center; /** centralizar o form */
+  align-items: center;
   justify-content: center;
+  width: 50%;
+  max-width: 420px;
 
   animation: ${appearFromRight} 900ms;
 
   form {
-    margin: 80px 0;
-    width: 340px;
+    margin: 30px 0;
+    width: 100%;
     text-align: center;
 
     h1 {
-      margin-bottom: 24px;
+      margin-bottom: 2.4rem;
+      font-size: 2.4rem;
     }
 
     a {
-      color: #f4ede8;
+      color: var(--text-accent);
       display: block;
-      margin-top: 24px;
+      margin-top: 2.4rem;
       text-decoration: none;
       transition: color 0.3s;
 
       &:hover {
-        color: ${shade(0.2, '#f4ede8')};
+        color: ${shade(0.2, '#fafafa')};
       }
     }
   }
 
   /** diretamente do pai */
   > a {
-    color: #f4ede8;
+    color: var(--text-accent);
     display: flex;
     align-items: center;
     margin-top: 24px;
@@ -73,7 +80,7 @@ export const AnimatedContainer = styled.div`
     }
 
     svg {
-      margin-right: 16px;
+      margin-right: 14px;
     }
   }
 `;
