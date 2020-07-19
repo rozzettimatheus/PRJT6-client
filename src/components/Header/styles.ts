@@ -62,6 +62,7 @@ export const DropdownMenu = styled.div`
   border-radius: var(--border-radius);
   overflow: hidden;
   transition: all 0.3s;
+  z-index: 100;
 
   animation: ${appearFromLeft} 0.4s;
 `;

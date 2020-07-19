@@ -18,9 +18,6 @@ interface ToastContextData {
 const ToastContext = createContext<ToastContextData>({} as ToastContextData);
 
 const ToastProvider: React.FC = ({ children }) => {
-  /**
-   * estado para armazenar as mensagens de toast
-   */
   const [messages, setMessages] = useState<ToastMessage[]>([]);
 
   const addToast = useCallback(

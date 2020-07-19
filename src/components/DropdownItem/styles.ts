@@ -10,7 +10,7 @@ export const MenuLink = styled(Link)`
   transition: background-color 0.3s;
   padding: 13px 15px;
   font-size: 14px;
-  font-weight: 400 !important;
+  /* font-weight: 400 !important; */
   color: var(--text);
   transition: all 0.3s;
 

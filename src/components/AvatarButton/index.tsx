@@ -1,14 +1,21 @@
-import React, { useState, useCallback } from 'react';
+import React, {
+  useState,
+  useCallback,
+  useRef,
+  useEffect,
+  LiHTMLAttributes,
+} from 'react';
 
 import { ListItem } from './styles';
 
-interface Props {
+interface Props extends LiHTMLAttributes<HTMLLIElement> {
   src: string;
   alt: string;
 }
 
 const AvatarButton: React.FC<Props> = ({ src, alt, children }) => {
   const [open, setOpen] = useState(false);
+  const buttonRef = useRef<HTMLButtonElement>(null);
 
   const handleToggleDropdown = useCallback(() => {
     setOpen(!open);
@@ -17,6 +24,7 @@ const AvatarButton: React.FC<Props> = ({ src, alt, children }) => {
   return (
     <ListItem>
       <button
+        ref={buttonRef}
         type="button"
         className={open ? 'active' : ''}
         onClick={handleToggleDropdown}
@@ -27,5 +35,4 @@ const AvatarButton: React.FC<Props> = ({ src, alt, children }) => {
     </ListItem>
   );
 };
-
 export default AvatarButton;

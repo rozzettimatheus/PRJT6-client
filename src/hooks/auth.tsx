@@ -42,7 +42,6 @@ export const AuthProvider: React.FC = ({ children }) => {
   });
 
   const signIn = useCallback(async ({ username, password }) => {
-    console.log(username, password);
     const response = await api.post(
       'auth/token',
       `username=${username}&password=${password}&grant_type=password`,
