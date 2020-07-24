@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useState, useCallback } from 'react';
 
 import { useAuth } from '../../hooks/auth';
 
@@ -29,8 +29,6 @@ const ProfileHeader: React.FC<NumberProps> = ({
 
   const toggleSubscription = useCallback(() => {
     setSubscription(!subscription);
-
-    // resto da logica de se inscrever
   }, [subscription]);
 
   return (

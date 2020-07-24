@@ -1,9 +1,8 @@
-import React, { useCallback, useRef } from 'react';
-import { FiLock } from 'react-icons/fi';
+import React, { useCallback, useRef, useState } from 'react';
+import { LockClosed } from '@styled-icons/heroicons-outline';
 import { Form } from '@unform/web';
 import { FormHandles } from '@unform/core';
 import * as Yup from 'yup';
-// import { useHistory, useLocation } from 'react-router-dom';
 
 import getValidationErrors from '../../../../utils/getValidationErrors';
 import { useToast } from '../../../../hooks/toast';
@@ -25,18 +24,21 @@ interface ResetPasswordFormData {
 }
 
 const SignIn: React.FC = () => {
+  const [loading, setLoading] = useState(false);
   const formRef = useRef<FormHandles>(null);
   const { addToast } = useToast();
-  // const history = useHistory();
-  // const location = useLocation();
 
   const handleSubmit = useCallback(
     async (data: ResetPasswordFormData) => {
       try {
+        setLoading(true);
         formRef.current?.setErrors({});
 
         const schema = Yup.object().shape({
-          password: Yup.string().required('Senha obrigatória'),
+          password: Yup.string().min(
+            6,
+            'A nova senha deve conter ao menos 6 caracteres',
+          ),
           password_confirmation: Yup.string().oneOf(
             [Yup.ref('password'), null],
             'As senhas não batem',
@@ -46,19 +48,6 @@ const SignIn: React.FC = () => {
         await schema.validate(data, {
           abortEarly: false,
         });
-
-        // const { password, password_confirmation } = data;
-        // const token = location.search.replace('?token=', '');
-
-        // if (!token) throw new Error();
-
-        // await api.post('/password/reset', {
-        //   password,
-        //   password_confirmation,
-        //   token,
-        // });
-
-        // history.push('/');
       } catch (err) {
         if (err instanceof Yup.ValidationError) {
           const errors = getValidationErrors(err);
@@ -73,6 +62,8 @@ const SignIn: React.FC = () => {
           title: 'Erro ao resetar senha',
           description: 'Ocorreu um erro ao resetar sua senha. Tente novamente',
         });
+      } finally {
+        setLoading(false);
       }
     },
     [addToast],
@@ -90,18 +81,20 @@ const SignIn: React.FC = () => {
             <Input
               name="password"
               type="password"
-              icon={FiLock}
+              icon={LockClosed}
               placeholder="Nova senha"
             />
 
             <Input
               name="password_confirmation"
               type="password"
-              icon={FiLock}
+              icon={LockClosed}
               placeholder="Confirmar nova senha"
             />
 
-            <Button type="submit">Alterar senha</Button>
+            <Button loading={loading} disabled={loading} type="submit">
+              Alterar senha
+            </Button>
           </Form>
         </AnimatedContainer>
       </Content>

@@ -1,14 +1,14 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  position: relative; /** relativo aos elementos com absolute */
+  position: relative;
 
   span {
     width: 160px;
     background: #ff9000;
-    padding: 8px;
-    border-radius: 4px;
-    font-size: 14px;
+    padding: 0.8rem;
+    border-radius: 0.4rem;
+    font-size: 1.4rem;
     font-weight: 500;
     visibility: hidden;
 
@@ -21,6 +21,11 @@ export const Container = styled.div`
     transform: translateX(-50%);
 
     color: #312e38;
+
+    @media (max-width: 550px) {
+      width: 120px;
+      font-size: 1.2rem;
+    }
 
     &::before {
       content: '';

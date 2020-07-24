@@ -1,10 +1,10 @@
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { Form } from '@unform/web';
 import { FormHandles } from '@unform/core';
 import * as Yup from 'yup';
 
-import { LockClosed, Mail, ExternalLink } from 'styled-icons/heroicons-outline';
+import { LockClosed, Mail } from '@styled-icons/heroicons-outline';
 
 import { useAuth } from '../../../../hooks/auth';
 import { useToast } from '../../../../hooks/toast';
@@ -19,6 +19,7 @@ import {
   Logo,
   Background,
   AnimatedContainer,
+  SignUpIcon,
 } from './styles';
 
 interface ISignInFormData {
@@ -27,6 +28,7 @@ interface ISignInFormData {
 }
 
 const SignIn: React.FC = () => {
+  const [loading, setLoading] = useState(false);
   const formRef = useRef<FormHandles>(null);
   const { signIn } = useAuth();
   const { addToast } = useToast();
@@ -35,6 +37,7 @@ const SignIn: React.FC = () => {
   const handleSubmit = useCallback(
     async (data: ISignInFormData) => {
       try {
+        setLoading(true);
         formRef.current?.setErrors({});
 
         const schema = Yup.object().shape({
@@ -71,6 +74,8 @@ const SignIn: React.FC = () => {
           description:
             'Ocorreu um erro ao fazer login. Por favor, cheque suas credenciais',
         });
+      } finally {
+        setLoading(false);
       }
     },
     [addToast, history, signIn],
@@ -93,7 +98,7 @@ const SignIn: React.FC = () => {
               placeholder="Senha"
             />
 
-            <Button disabled type="submit">
+            <Button disabled={loading} loading={loading} type="submit">
               Entrar
             </Button>
 
@@ -101,7 +106,7 @@ const SignIn: React.FC = () => {
           </Form>
 
           <Link to="/register">
-            <ExternalLink size />
+            <SignUpIcon />
             Criar uma conta
           </Link>
         </AnimatedContainer>

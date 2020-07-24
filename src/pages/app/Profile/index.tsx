@@ -1,7 +1,5 @@
-import React, { useEffect } from 'react';
-import { Play, Add } from 'styled-icons/ionicons-outline';
-
-// import { useAuth } from '../../../hooks/auth';
+import React from 'react';
+import { Play, Add } from '@styled-icons/ionicons-outline';
 
 import Wrapper from '../../../components/Wrapper';
 import ProfileHeader from '../../../components/ProfileHeader';
@@ -16,10 +14,6 @@ import {
 } from './styles';
 
 const Profile: React.FC = () => {
-  // const { user } = useAuth();
-
-  // useEffect(() => {}, []);
-
   return (
     <Wrapper>
       <ProfileHeader followers={0} following={0} playlists={0} />

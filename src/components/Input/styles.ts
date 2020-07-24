@@ -1,4 +1,5 @@
 import styled, { css } from 'styled-components';
+import { ExclamationCircle } from '@styled-icons/heroicons-outline';
 
 import Tooltip from '../Tooltip';
 
@@ -11,13 +12,13 @@ interface ContainerProps {
 export const Container = styled.div<ContainerProps>`
   background: var(--input-color);
   border-radius: var(--border-radius);
-  padding: 14px;
+  padding: 1.4rem;
   width: 100%;
 
-  border: 2px solid var(--input-color); /** mostrar erro e focus */
+  border: 2px solid var(--input-color); 
   color: var(--text-darken);
 
-  /* ordem aqui importa - focus */
+  /* color order matters */
   ${props =>
     props.isFailed &&
     css`
@@ -35,47 +36,50 @@ export const Container = styled.div<ContainerProps>`
     props.isFilled &&
     css`
       color: var(--purple);
-    `}
-
-  
+    `} 
 
   display: flex;
   align-items: center;
 
   & + div {
-    margin-top: 8px;
+    margin-top: 0.8rem;
   }
 
   input {
     background: transparent;
-    flex: 1; /** ocupa toda a area disponivel */
+    flex: 1;
     border: 0;
-    color: #f4ede8;
+    color: var(--text-accent);
 
     &::placeholder {
-      color: #666360;
+      color: var(--close-icon);
     }
   }
 
   svg {
-    margin-right: 14px; 
+    margin-right: 1.4rem; 
   }
 `;
 
+export const ExclamationIcon = styled(ExclamationCircle)`
+  color: var(--error);
+  height: 2rem;
+`;
+
 export const Error = styled(Tooltip)`
-  height: 20px; /* pra nao aumentar o tamanho do input */
-  margin-left: 16px; /** pra nao encostar no input */
+  height: 20px;
+  margin-left: 1.6rem;
 
   svg {
     margin: 0;
   }
 
   span {
-    background: #c53030;
-    color: #fff;
+    background: var(--error);
+    color: var(--white);
 
     &::before {
-      border-color: #c53030 transparent;
+      border-color: var(--error) transparent;
     }
   }
 `;

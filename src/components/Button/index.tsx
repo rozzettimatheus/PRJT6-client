@@ -1,19 +1,20 @@
 import React, { ButtonHTMLAttributes } from 'react';
 
+import { ReactComponent as LoaderSVG } from '../../assets/spinner.svg';
 import { Container } from './styles';
 
-/**
- * Igual a uma interface vazia
- */
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+interface IButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   loading?: boolean;
 }
 
-const Button: React.FC<ButtonProps> = ({ children, loading, ...rest }) => {
+const Button: React.FC<IButtonProps> = ({ children, loading, ...rest }) => {
   return (
-    // caso passe o type, o React reescreve
-    <Container type="button" {...rest}>
-      {loading ? 'Carregando...' : children}
+    <Container type="button" {...rest} disabled={loading}>
+      {loading ? (
+        <LoaderSVG style={{ height: '40px', background: 'transparent' }} />
+      ) : (
+        children
+      )}
     </Container>
   );
 };

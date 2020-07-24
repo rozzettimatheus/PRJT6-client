@@ -1,7 +1,7 @@
 import styled, { keyframes } from 'styled-components';
 import { lighten } from 'polished';
 import YouTube from 'react-youtube';
-import { ChevronDown } from 'styled-icons/heroicons-outline';
+import { ChevronDown } from '@styled-icons/heroicons-outline';
 
 export const GenresContainer = styled.div`
   display: flex;

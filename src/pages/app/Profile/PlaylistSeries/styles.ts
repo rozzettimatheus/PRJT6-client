@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import { Edit } from 'styled-icons/boxicons-solid';
+import { PencilAlt } from '@styled-icons/heroicons-outline';
 
 interface TabProps {
   selected?: boolean;
@@ -89,7 +89,7 @@ export const PlaylistTitle = styled.div`
   }
 `;
 
-export const EditIcon = styled(Edit)`
+export const EditIcon = styled(PencilAlt)`
   height: 18px;
   color: var(--edit-icon);
 `;

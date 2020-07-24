@@ -35,6 +35,24 @@ export default createGlobalStyle`
 
     --border-radius: 5px;
     --nav-size: 60px;
+
+    --max-width: 975px;
+
+    /** public pages */
+    --wrapper-max-width: 700px;
+    
+    --animated-container: 50%;
+    --animeted-container-media: 65%; 
+
+    --logo: 16%;
+    --logo-media: 13%;
+
+    --form-max-width: 420px;
+    --form-margin: 3rem 0;
+    --form-title-size: 2.4rem;
+    --form-title-margin-bottom: 2.4rem;
+
+    --bg-cover-opacity: 0.7;
   }
 
   body {

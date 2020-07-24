@@ -1,9 +1,8 @@
 import styled from 'styled-components';
 import { lighten } from 'polished';
 import { Link } from 'react-router-dom';
-import { X } from 'styled-icons/heroicons-outline';
-import { Lock } from 'styled-icons/fa-solid';
-import { PlaylistPlay } from 'styled-icons/material-rounded';
+import { X } from '@styled-icons/heroicons-outline';
+import { LockClosed, Play } from '@styled-icons/ionicons-outline';
 
 export const Container = styled(Link)`
   display: flex;
@@ -55,8 +54,8 @@ export const AvatarWrapper = styled.div`
   } */
 `;
 
-export const AvatarIcon = styled(PlaylistPlay)`
-  height: 4.5rem;
+export const AvatarIcon = styled(Play)`
+  height: 3.5rem;
   color: var(--text);
 `;
 
@@ -93,7 +92,7 @@ export const UserNumbers = styled.div`
   }
 `;
 
-export const LockIcon = styled(Lock)`
+export const LockIcon = styled(LockClosed)`
   height: 2.2rem;
   color: var(--text);
 `;

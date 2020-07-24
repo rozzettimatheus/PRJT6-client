@@ -1,5 +1,6 @@
 import styled, { keyframes } from 'styled-components';
 import { shade } from 'polished';
+import { ExternalLink } from '@styled-icons/heroicons-outline';
 
 import { ReactComponent as LogoSVG } from '../../../../assets/logo-outlined.svg';
 import backgroundCover from '../../../../assets/background.jpg';
@@ -15,11 +16,18 @@ export const Content = styled.div`
   align-items: center;
   justify-content: center;
   width: 100%;
-  max-width: 700px;
+  max-width: var(--wrapper-max-width);
 `;
 
 export const Logo = styled(LogoSVG)`
-  height: 20%;
+  height: var(--logo);
+  max-height: var(--logo);
+
+  @media (max-width: 550px) {
+    & {
+      height: var(--logo-media);
+    }
+  }
 `;
 
 const appearFromLeft = keyframes`
@@ -39,19 +47,23 @@ export const AnimatedContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 50%;
-  max-width: 420px;
+  width: var(--animated-container);
+  max-width: var(--form-max-width);
 
   animation: ${appearFromLeft} 900ms;
 
+  @media (max-width: 650px) {
+    width: var(--animated-container-media);
+  }
+
   form {
-    margin: 30px 0;
+    margin: var(--form-margin);
     width: 100%;
     text-align: center;
 
     h1 {
-      margin-bottom: 2.4rem;
-      font-size: 2.4rem;
+      margin-bottom: var(--form-title-size);
+      font-size: var(--form-title-margin-bottom);
     }
 
     a {
@@ -71,23 +83,30 @@ export const AnimatedContainer = styled.div`
     color: var(--purple);
     display: flex;
     align-items: center;
-    margin-top: 24px;
+    margin-top: 2.4rem;
     text-decoration: none;
     transition: color 0.3s;
 
     &:hover {
       color: ${shade(0.2, '#bb86fc')};
-    }
 
-    svg {
-      margin-right: 14px;
+      svg {
+        color: ${shade(0.2, '#bb86fc')};
+      }
     }
   }
+`;
+
+export const SignUpIcon = styled(ExternalLink)`
+  margin-right: 1.4rem;
+  color: var(--purple);
+  height: 2rem;
+  transition: color 0.3s;
 `;
 
 export const Background = styled.div`
   flex: 1;
   background: url(${backgroundCover}) no-repeat center;
-  opacity: 0.7;
+  opacity: var(--bg-cover-opacity);
   background-size: cover;
 `;

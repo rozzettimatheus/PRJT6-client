@@ -6,7 +6,7 @@ import {
   Users,
   Search,
   Share,
-} from 'styled-icons/heroicons-outline';
+} from '@styled-icons/heroicons-outline';
 
 import { useAuth } from '../../hooks/auth';
 

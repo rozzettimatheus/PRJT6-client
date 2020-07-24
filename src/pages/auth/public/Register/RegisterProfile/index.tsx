@@ -1,5 +1,5 @@
-import React, { useCallback, useRef } from 'react';
-import { FiUser, FiFileText } from 'react-icons/fi';
+import React, { useCallback, useRef, useState } from 'react';
+import { User, Document } from '@styled-icons/heroicons-outline';
 import { FormHandles } from '@unform/core';
 import { Form } from '@unform/web';
 import * as Yup from 'yup';
@@ -20,36 +20,38 @@ import {
   AnimatedContainer,
 } from './styles';
 
-interface TokenParams {
+interface ITokenParams {
   token: string;
 }
 
-interface SignUpFormData {
+interface IRegisterProfileData {
   fullname: string;
   description: string;
 }
 
 const SignUp: React.FC = () => {
+  const [loading, setLoading] = useState(false);
   const formRef = useRef<FormHandles>(null);
   const { addToast } = useToast();
   const history = useHistory();
-  const { params } = useRouteMatch<TokenParams>();
+  const { params } = useRouteMatch<ITokenParams>();
 
   const handleSubmit = useCallback(
-    async (data: SignUpFormData) => {
+    async (data: IRegisterProfileData) => {
       try {
+        setLoading(true);
         formRef.current?.setErrors({});
 
         const schema = Yup.object().shape({
           fullname: Yup.string().required('Nome obrigatório'),
-          description: Yup.string().required('Descrição obrigatória'),
+          description: Yup.string(),
         });
 
         await schema.validate(data, {
           abortEarly: false,
         });
 
-        const { fullname, description } = data;
+        const { fullname, description = '' } = data;
         const { token } = params;
 
         await api.post(
@@ -66,13 +68,12 @@ const SignUp: React.FC = () => {
           },
         );
 
-        // Vai pro dashboard
         history.push('/');
 
         addToast({
           type: 'success',
           title: 'Cadastro realizado!',
-          description: 'Você já pode fazer seu login no Cineplus',
+          description: 'Você já pode fazer login no Cineplus',
         });
       } catch (err) {
         if (err instanceof Yup.ValidationError) {
@@ -88,6 +89,8 @@ const SignUp: React.FC = () => {
           title: 'Erro no cadastro',
           description: 'Ocorreu um erro ao fazer cadastro. Tente novamente',
         });
+      } finally {
+        setLoading(false);
       }
     },
     [addToast, history, params],
@@ -103,14 +106,16 @@ const SignUp: React.FC = () => {
           <Form ref={formRef} onSubmit={handleSubmit}>
             <h1>Finalizar cadastro</h1>
 
-            <Input name="fullname" icon={FiUser} placeholder="Nome" />
+            <Input name="fullname" icon={User} placeholder="Nome" />
             <Input
               name="description"
-              icon={FiFileText}
-              placeholder="Descrição"
+              icon={Document}
+              placeholder="Descrição (opcional)"
             />
 
-            <Button type="submit">Cadastrar</Button>
+            <Button loading={loading} disabled={loading} type="submit">
+              Cadastrar
+            </Button>
           </Form>
         </AnimatedContainer>
       </Content>

@@ -1,5 +1,5 @@
 import React, { useCallback, useRef, useState } from 'react';
-import { FiArrowLeft, FiMail } from 'react-icons/fi';
+import { Mail } from '@styled-icons/heroicons-outline';
 import { Form } from '@unform/web';
 import { FormHandles } from '@unform/core';
 import * as Yup from 'yup';
@@ -16,9 +16,10 @@ import {
   Logo,
   Background,
   AnimatedContainer,
+  GoBackIcon,
 } from './styles';
 
-interface ForgotPasswordFormData {
+interface IForgotPasswordFormData {
   email: string;
 }
 
@@ -28,7 +29,7 @@ const ForgotPassword: React.FC = () => {
   const { addToast } = useToast();
 
   const handleSubmit = useCallback(
-    async (data: ForgotPasswordFormData) => {
+    async (data: IForgotPasswordFormData) => {
       try {
         setLoading(true);
         formRef.current?.setErrors({});
@@ -42,10 +43,6 @@ const ForgotPassword: React.FC = () => {
         await schema.validate(data, {
           abortEarly: false,
         });
-
-        // await api.post('/password/forgot', {
-        //   email: data.email,
-        // });
 
         addToast({
           type: 'success',
@@ -82,14 +79,14 @@ const ForgotPassword: React.FC = () => {
 
           <Form ref={formRef} onSubmit={handleSubmit}>
             <h1>Recuperar senha</h1>
-            <Input name="email" icon={FiMail} placeholder="E-mail" />
-            <Button loading={loading} type="submit">
+            <Input name="email" icon={Mail} placeholder="E-mail" />
+            <Button disabled={loading} loading={loading} type="submit">
               Recuperar
             </Button>
           </Form>
 
           <Link to="/">
-            <FiArrowLeft />
+            <GoBackIcon />
             Voltar ao login
           </Link>
         </AnimatedContainer>

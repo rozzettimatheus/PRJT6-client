@@ -14,11 +14,18 @@ export const Content = styled.div`
   align-items: center;
   justify-content: center;
   width: 100%;
-  max-width: 700px;
+  max-width: var(--wrapper-max-width);
 `;
 
 export const Logo = styled(LogoSVG)`
-  height: 20%;
+  height: var(--logo);
+  max-height: var(--logo);
+
+  @media (max-width: 550px) {
+    & {
+      height: var(--logo-media);
+    }
+  }
 `;
 
 const appearFromLeft = keyframes`
@@ -38,19 +45,23 @@ export const AnimatedContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 50%;
-  max-width: 420px;
+  width: var(--animated-container);
+  max-width: var(--form-max-width);
 
   animation: ${appearFromLeft} 900ms;
 
+  @media (max-width: 650px) {
+    width: var(--animated-container-media);
+  }
+
   form {
-    margin: 30px 0;
+    margin: var(--form-margin);
     width: 100%;
     text-align: center;
 
     h1 {
-      margin-bottom: 2.4rem;
-      font-size: 2.4rem;
+      margin-bottom: var(--form-title-size);
+      font-size: var(--form-title-margin-bottom);
     }
   }
 `;
@@ -58,6 +69,6 @@ export const AnimatedContainer = styled.div`
 export const Background = styled.div`
   flex: 1;
   background: url(${backgroundCover}) no-repeat center;
-  opacity: 0.7;
+  opacity: var(--bg-cover-opacity);
   background-size: cover;
 `;

@@ -1,5 +1,4 @@
 import styled, { keyframes } from 'styled-components';
-import { shade } from 'polished';
 
 import { ReactComponent as LogoSVG } from '../../../../../assets/logo-outlined.svg';
 import backgroundCover from '../../../../../assets/background.jpg';
@@ -7,7 +6,6 @@ import backgroundCover from '../../../../../assets/background.jpg';
 export const Container = styled.div`
   height: 100vh;
   display: flex;
-  align-items: stretch; /** estica ao máximo */
 `;
 
 export const Content = styled.div`
@@ -16,11 +14,18 @@ export const Content = styled.div`
   align-items: center;
   justify-content: center;
   width: 100%;
-  max-width: 700px;
+  max-width: var(--wrapper-max-width);
 `;
 
 export const Logo = styled(LogoSVG)`
-  height: 20%;
+  height: var(--logo);
+  max-height: var(--logo);
+
+  @media (max-width: 550px) {
+    & {
+      height: var(--logo-media);
+    }
+  }
 `;
 
 const appearFromRight = keyframes`
@@ -39,48 +44,23 @@ export const AnimatedContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 50%;
-  max-width: 420px;
+  width: var(--animated-container);
+  max-width: var(--form-max-width);
 
   animation: ${appearFromRight} 900ms;
 
+  @media (max-width: 650px) {
+    width: var(--animated-container-media);
+  }
+
   form {
-    margin: 30px 0;
+    margin: var(--form-margin);
     width: 100%;
     text-align: center;
 
     h1 {
-      margin-bottom: 2.4rem;
-      font-size: 2.4rem;
-    }
-
-    a {
-      color: var(--text-accent);
-      display: block;
-      margin-top: 2.4rem;
-      text-decoration: none;
-      transition: color 0.3s;
-
-      &:hover {
-        color: ${shade(0.2, '#fafafa')};
-      }
-    }
-  }
-
-  > a {
-    color: var(--purple);
-    display: flex;
-    align-items: center;
-    margin-top: 24px;
-    text-decoration: none;
-    transition: color 0.3s;
-
-    &:hover {
-      color: ${shade(0.2, '#fafafa')};
-    }
-
-    svg {
-      margin-right: 14px;
+      margin-bottom: var(--form-title-size);
+      font-size: var(--form-title-margin-bottom);
     }
   }
 `;
@@ -88,6 +68,6 @@ export const AnimatedContainer = styled.div`
 export const Background = styled.div`
   flex: 1;
   background: url(${backgroundCover}) no-repeat center;
-  opacity: 0.7;
+  opacity: var(--bg-cover-opacity);
   background-size: cover;
 `;

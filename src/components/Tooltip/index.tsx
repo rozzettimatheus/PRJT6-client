@@ -4,7 +4,7 @@ import { Container } from './styles';
 
 interface TooltipProps {
   title: string;
-  className?: string; // passa a estilização através de classes
+  className?: string;
 }
 
 const Tooltip: React.FC<TooltipProps> = ({ children, className, title }) => {

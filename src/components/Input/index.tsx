@@ -5,19 +5,14 @@ import React, {
   useState,
   useCallback,
 } from 'react';
-import { IconBaseProps } from 'react-icons';
-import { FiAlertCircle } from 'react-icons/fi';
 import { useField } from '@unform/core';
 import { StyledIconProps } from '@styled-icons/styled-icon';
-import { Container, Error } from './styles';
+import { Container, Error, ExclamationIcon } from './styles';
 
-/**
- * interface que receba todas as propriedades de um input
- */
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-  name: string; // required
+  name: string;
   containerStyle?: object;
-  icon?: React.ComponentType<StyledIconProps>; // quando é passado direto um componente nas props
+  icon?: React.ComponentType<StyledIconProps>;
 }
 
 const Input: React.FC<InputProps> = ({
@@ -28,35 +23,21 @@ const Input: React.FC<InputProps> = ({
 }) => {
   const [isFocused, setIsFocused] = useState(false);
   const [isFilled, setisFilled] = useState(false);
-  /**
-   * similar a id - document.getElementById()
-   *  - tipo de um input
-   */
+
   const inputRef = useRef<HTMLInputElement>(null);
-  /**
-   * registrar o campo
-   *  - fieldN
-   *  - registerField - function() => registra o input assim q aparecer em tela
-   */
+
   const { fieldName, defaultValue, error, registerField } = useField(name);
 
   useEffect(() => {
     registerField({
       name: fieldName,
-      ref: inputRef.current, // aqui fica a referencia, da acesso ao elemento
-      path: 'value', // a partir do ref ele busca o valor
+      ref: inputRef.current,
+      path: 'value',
     });
   }, [fieldName, registerField]);
 
-  /**
-   * functions normais dentro de um componente são sempre recriados quando
-   * o componente é chamado - renderizado
-   *  - Isso implica em gasto desnecessário de memória
-   *  - o useCallback resolve isso -> deixa a funcao salva na memoria
-   */
   const handleInputBlur = useCallback(() => {
     setIsFocused(false);
-    // se tiver um valor, ele mantem o laranja no icon
     setisFilled(!!inputRef.current?.value);
   }, []);
 
@@ -73,16 +54,15 @@ const Input: React.FC<InputProps> = ({
     >
       {Icon && <Icon size={18} />}
       <input
-        onFocus={handleInputFocus} // listener
+        onFocus={handleInputFocus}
         onBlur={handleInputBlur}
         defaultValue={defaultValue}
         ref={inputRef}
         {...rest}
       />
-      {/* pode adicionar defaultValue */}
       {error && (
         <Error title={error}>
-          <FiAlertCircle size={20} color="#c53030" />
+          <ExclamationIcon />
         </Error>
       )}
     </Container>
