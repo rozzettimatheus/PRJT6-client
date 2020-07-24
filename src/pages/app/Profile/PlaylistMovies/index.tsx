@@ -19,7 +19,7 @@ import BackdropCard from '../../../../components/BackdropCard';
 const PlaylistMovies: React.FC = () => {
   return (
     <Wrapper>
-      <ProfileHeader />
+      <ProfileHeader followers={0} following={0} playlists={0} />
 
       <Main>
         <PlaylistHeader>

@@ -3,7 +3,11 @@ import React, { createContext, useCallback, useState, useContext } from 'react';
 import api from '../services/api';
 
 interface User {
+  id: number;
   username: string;
+  fullname: string;
+  avatar: string | null;
+  description: string | null;
 }
 
 interface AuthData {
@@ -55,15 +59,24 @@ export const AuthProvider: React.FC = ({ children }) => {
 
     const { access_token } = response.data;
 
-    // api call - get user
+    api.defaults.headers.authorization = `Bearer ${access_token}`;
+
+    const userResponse = await api.get('/user/details');
+
+    const {
+      profile: { id, fullname, email, description, image },
+    } = userResponse.data;
+
     const user: User = {
-      username,
+      id,
+      fullname,
+      username: email,
+      description,
+      avatar: image,
     };
 
     localStorage.setItem('@CinePlus:token', access_token);
     localStorage.setItem('@CinePlus:user', JSON.stringify(user));
-
-    api.defaults.headers.authorization = `Bearer ${access_token}`;
 
     setData({ access_token, user });
   }, []);

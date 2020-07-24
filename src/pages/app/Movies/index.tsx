@@ -1,5 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react';
 
+import genresPTBR from '../../../json/genres-ptBR.json';
+
 import api from '../../../services/api';
 import getVideoIDFromURL from '../../../utils/getVideoIDFromURL';
 
@@ -52,9 +54,23 @@ const Movies: React.FC = () => {
     }
   }, [open]);
 
+  const handleSearchMovie = useCallback((id: number) => {
+    api
+      .get(`/movies/detail/${id}`)
+      .then(response => console.log(response.data));
+  }, []);
+
   useEffect(() => {
     // get genres
-    api.get('/genres/list').then(response => setGenres(response.data));
+    api.get('/genres/list').then(response => {
+      const { data } = response;
+
+      const genresData = data.map((d: GenresData) => {
+        return genresPTBR.find(genre => genre.id === d.id);
+      });
+
+      setGenres(genresData);
+    });
 
     // get video url
     api.get('/movies/toptrending/video').then(response => {
@@ -64,12 +80,14 @@ const Movies: React.FC = () => {
 
     api.get('movies/popular').then(response => {
       const movies = response.data;
+
       const moviesArray = Object.keys(movies).map(key => {
         return {
           title: key,
           films: movies[key],
         };
       });
+
       setSections(moviesArray);
       setLoading(false);
     });
@@ -112,6 +130,7 @@ const Movies: React.FC = () => {
             <MoviesList>
               {section.films.map(film => (
                 <PosterCard
+                  onClick={() => handleSearchMovie(film.id)}
                   key={film.id}
                   style={{ backgroundImage: `url(${film.poster_path})` }}
                 />

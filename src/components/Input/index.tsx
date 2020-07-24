@@ -8,7 +8,7 @@ import React, {
 import { IconBaseProps } from 'react-icons';
 import { FiAlertCircle } from 'react-icons/fi';
 import { useField } from '@unform/core';
-
+import { StyledIconProps } from '@styled-icons/styled-icon';
 import { Container, Error } from './styles';
 
 /**
@@ -17,7 +17,7 @@ import { Container, Error } from './styles';
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   name: string; // required
   containerStyle?: object;
-  icon?: React.ComponentType<IconBaseProps>; // quando é passado direto um componente nas props
+  icon?: React.ComponentType<StyledIconProps>; // quando é passado direto um componente nas props
 }
 
 const Input: React.FC<InputProps> = ({

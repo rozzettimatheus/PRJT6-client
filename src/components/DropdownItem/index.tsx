@@ -8,6 +8,7 @@ interface Props {
   page: string;
   children: string;
   customStyle?: object;
+  onClick?: () => void;
 }
 
 const DropdownItem: React.FC<Props> = ({
@@ -15,9 +16,10 @@ const DropdownItem: React.FC<Props> = ({
   icon: Icon,
   page,
   customStyle,
+  onClick,
 }) => {
   return (
-    <MenuLink style={customStyle && customStyle} to={page}>
+    <MenuLink onClick={onClick} style={customStyle && customStyle} to={page}>
       {Icon && <Icon />}
       {children}
     </MenuLink>

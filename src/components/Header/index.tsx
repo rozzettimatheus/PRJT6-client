@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import {
   Adjustments,
@@ -7,6 +7,10 @@ import {
   Search,
   Share,
 } from 'styled-icons/heroicons-outline';
+
+import { useAuth } from '../../hooks/auth';
+
+import avatar from '../../assets/avatar.png';
 
 import {
   Container,
@@ -23,7 +27,7 @@ import DropdownItem from '../DropdownItem';
 import logo from '../../assets/logo-outlined.svg';
 
 const Header: React.FC = () => {
-  const avatarRef = useRef();
+  const { signOut, user } = useAuth();
 
   return (
     <Container>
@@ -47,8 +51,8 @@ const Header: React.FC = () => {
           <NavItem page="/search" icon={Search} />
           <NavItem page="/people" icon={Users} />
           <AvatarButton
-            alt="Gabriel"
-            src="https://instagram.faqa1-1.fna.fbcdn.net/v/t51.2885-19/s150x150/100987893_249534669715410_46825820815097856_n.jpg?_nc_ht=instagram.faqa1-1.fna.fbcdn.net&_nc_ohc=e0umfiZrUkgAX9uXhOH&oh=57b5e5212c48b7ad1b0983c31dc4bc30&oe=5F3EC67E"
+            alt={user.fullname}
+            src={user.avatar ? user.avatar : avatar}
           >
             <DropdownMenu>
               <DropdownItem page="/profile" icon={User}>
@@ -62,6 +66,7 @@ const Header: React.FC = () => {
               </DropdownItem>
               <DropdownItem
                 page="/"
+                onClick={signOut}
                 customStyle={{ borderTop: '1px solid var(--border-color)' }}
               >
                 Sair

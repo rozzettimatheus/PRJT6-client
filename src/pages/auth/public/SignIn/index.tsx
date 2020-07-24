@@ -1,9 +1,10 @@
 import React, { useCallback, useRef } from 'react';
-import { FiLogIn, FiMail, FiLock } from 'react-icons/fi';
+import { Link, useHistory } from 'react-router-dom';
 import { Form } from '@unform/web';
 import { FormHandles } from '@unform/core';
 import * as Yup from 'yup';
-import { Link, useHistory } from 'react-router-dom';
+
+import { LockClosed, Mail, ExternalLink } from 'styled-icons/heroicons-outline';
 
 import { useAuth } from '../../../../hooks/auth';
 import { useToast } from '../../../../hooks/toast';
@@ -20,7 +21,7 @@ import {
   AnimatedContainer,
 } from './styles';
 
-interface SignInFormData {
+interface ISignInFormData {
   username: string;
   password: string;
 }
@@ -32,7 +33,7 @@ const SignIn: React.FC = () => {
   const history = useHistory();
 
   const handleSubmit = useCallback(
-    async (data: SignInFormData) => {
+    async (data: ISignInFormData) => {
       try {
         formRef.current?.setErrors({});
 
@@ -84,21 +85,23 @@ const SignIn: React.FC = () => {
           <Form ref={formRef} onSubmit={handleSubmit}>
             <h1>Faça seu login</h1>
 
-            <Input name="username" icon={FiMail} placeholder="E-mail" />
+            <Input name="username" icon={Mail} placeholder="E-mail" />
             <Input
               name="password"
               type="password"
-              icon={FiLock}
+              icon={LockClosed}
               placeholder="Senha"
             />
 
-            <Button type="submit">Entrar</Button>
+            <Button disabled type="submit">
+              Entrar
+            </Button>
 
             <Link to="/forgot">Esqueci minha senha</Link>
           </Form>
 
           <Link to="/register">
-            <FiLogIn />
+            <ExternalLink size />
             Criar uma conta
           </Link>
         </AnimatedContainer>

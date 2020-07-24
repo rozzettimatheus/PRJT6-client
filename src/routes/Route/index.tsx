@@ -5,7 +5,8 @@ import {
   Redirect,
 } from 'react-router-dom';
 
-// import { useAuth } from '../../hooks/auth';
+import { useAuth } from '../../hooks/auth';
+
 import Main from '../../layout/Main';
 import Auth from '../../layout/Auth';
 
@@ -21,8 +22,8 @@ const Route: React.FC<RouteProps> = ({
   component: Component,
   ...rest
 }) => {
-  // const { user } = useAuth();
-  const user = true;
+  const { user } = useAuth();
+  // const user = true;
   const Layout: React.FC = !user ? Auth : Main;
 
   return (

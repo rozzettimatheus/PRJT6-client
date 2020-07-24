@@ -53,14 +53,33 @@ export const DropdownMenu = styled.div`
   position: absolute;
   top: 50px;
   width: 202px;
+  max-height: 400px;
   transform: translateX(-25%);
   background: var(--bg-nav);
   border: 1px solid var(--border-color);
   border-radius: var(--border-radius);
-  overflow: hidden;
+  overflow-y: scroll;
   transition: all 0.2s;
 
   animation: ${appearFromTop} 0.2s;
+
+  ::-webkit-scrollbar {
+    width: 15px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--bg);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--border-color);
+    border-radius: var(--border-radius);
+    transition: background-color 0.2s;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: ${lighten(0.06, '#3a3a3a')};
+  }
 `;
 
 export const Player = styled(YouTube)`

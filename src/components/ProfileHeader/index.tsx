@@ -1,4 +1,8 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
+
+import { useAuth } from '../../hooks/auth';
+
+import avatar from '../../assets/avatar.png';
 
 import {
   Container,
@@ -9,7 +13,18 @@ import {
   UserInfo,
 } from './styles';
 
-const ProfileHeader: React.FC = () => {
+interface NumberProps {
+  followers: number;
+  following: number;
+  playlists: number;
+}
+
+const ProfileHeader: React.FC<NumberProps> = ({
+  followers,
+  following,
+  playlists,
+}) => {
+  const { user } = useAuth();
   const [subscription, setSubscription] = useState(false);
 
   const toggleSubscription = useCallback(() => {
@@ -23,17 +38,14 @@ const ProfileHeader: React.FC = () => {
       <AvatarContainer>
         <div>
           <div>
-            <img
-              src="https://instagram.faqa1-1.fna.fbcdn.net/v/t51.2885-19/s150x150/100987893_249534669715410_46825820815097856_n.jpg?_nc_ht=instagram.faqa1-1.fna.fbcdn.net&_nc_ohc=5Pksyfxi_JkAX9sPLog&oh=2ec425a91747f8d2ad6163aef6932f0c&oe=5F3AD1FE"
-              alt="Gabr"
-            />
+            <img src={user.avatar ? user.avatar : avatar} alt={user.fullname} />
           </div>
         </div>
       </AvatarContainer>
 
       <UserSection>
         <UsernameContainer>
-          <h2>rozzettimatheus.dev</h2>
+          <h2>{user.fullname}</h2>
           <button
             type="button"
             className={subscription ? 'active' : ''}
@@ -45,27 +57,23 @@ const ProfileHeader: React.FC = () => {
         <UserList>
           <li>
             <span>
-              <strong>20</strong> playlists
+              <strong>{playlists}</strong> playlists
             </span>
           </li>
           <li>
             <span>
-              <strong>120</strong> seguidores
+              <strong>{followers}</strong> seguidores
             </span>
           </li>
           <li>
             <span>
-              <strong>115</strong> seguindo
+              <strong>{following}</strong> seguindo
             </span>
           </li>
         </UserList>
         <UserInfo>
-          <h1>Gabriel Rozzetti</h1>
-          <p>
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sequi
-            excepturi aut laboriosam tempore soluta ea sunt enim explicabo
-            nihil, maiores non.
-          </p>
+          <h1>{user.username}</h1>
+          <p>{user.description}</p>
         </UserInfo>
       </UserSection>
     </Container>

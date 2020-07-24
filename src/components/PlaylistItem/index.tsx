@@ -10,6 +10,7 @@ import {
   LockIcon,
   Delete,
   DeleteIcon,
+  AvatarIcon,
 } from './styles';
 
 interface Props {
@@ -29,8 +30,14 @@ const PlaylistItem: React.FC<Props> = ({
   isPrivate,
   isDeletable,
 }) => {
-  const formatItems = useMemo(() => {}, []);
-  const formatFollowers = useMemo(() => {}, []);
+  const formatItems = useMemo(
+    () => (items === 1 ? 'item salvo' : 'items salvos'),
+    [items],
+  );
+  const formatFollowers = useMemo(
+    () => (followers === 1 ? 'seguidor' : 'seguidores'),
+    [followers],
+  );
 
   return (
     <Container to={page}>
@@ -38,10 +45,7 @@ const PlaylistItem: React.FC<Props> = ({
         <PlaylistInfoContainer>
           <AvatarWrapper>
             <div>
-              <img
-                src="https://ui-avatars.com/api/?rounded=true&size=128&name=Gabriel+Matheus"
-                alt="icon"
-              />
+              <AvatarIcon />
             </div>
           </AvatarWrapper>
 
@@ -53,8 +57,8 @@ const PlaylistItem: React.FC<Props> = ({
               </div>
               <UserNumbers>
                 <span>
-                  <strong>{items}</strong> itens salvos |{' '}
-                  <strong>{followers}</strong> seguidores
+                  <strong>{items}</strong> {formatItems} |{' '}
+                  <strong>{followers}</strong> {formatFollowers}
                 </span>
               </UserNumbers>
             </Info>

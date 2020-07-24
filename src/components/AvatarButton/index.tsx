@@ -1,10 +1,4 @@
-import React, {
-  useState,
-  useCallback,
-  useRef,
-  useEffect,
-  LiHTMLAttributes,
-} from 'react';
+import React, { useState, useCallback, useRef, LiHTMLAttributes } from 'react';
 
 import { ListItem } from './styles';
 

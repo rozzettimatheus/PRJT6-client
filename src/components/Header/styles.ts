@@ -23,6 +23,7 @@ export const Content = styled.div`
 
 export const NavContainer = styled.ul`
   display: flex;
+
   li {
     padding: 8px 20px;
   }

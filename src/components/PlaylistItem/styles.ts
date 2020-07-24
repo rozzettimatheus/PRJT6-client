@@ -3,6 +3,7 @@ import { lighten } from 'polished';
 import { Link } from 'react-router-dom';
 import { X } from 'styled-icons/heroicons-outline';
 import { Lock } from 'styled-icons/fa-solid';
+import { PlaylistPlay } from 'styled-icons/material-rounded';
 
 export const Container = styled(Link)`
   display: flex;
@@ -49,9 +50,14 @@ export const AvatarWrapper = styled.div`
   display: flex;
   margin-right: 24px;
 
-  img {
+  /* img {
     height: 5.2rem;
-  }
+  } */
+`;
+
+export const AvatarIcon = styled(PlaylistPlay)`
+  height: 4.5rem;
+  color: var(--text);
 `;
 
 export const PlaylistInfo = styled.div``;

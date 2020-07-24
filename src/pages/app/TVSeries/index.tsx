@@ -3,6 +3,8 @@ import React, { useState, useCallback, useEffect } from 'react';
 import api from '../../../services/api';
 import getVideoIDFromURL from '../../../utils/getVideoIDFromURL';
 
+import genresPTBR from '../../../json/genres-ptBR.json';
+
 import Wrapper from '../../../components/Wrapper';
 import DropdownItem from '../../../components/DropdownItem';
 import Loader from '../../../components/Loader';
@@ -54,7 +56,15 @@ const TVSeries: React.FC = () => {
 
   useEffect(() => {
     // get genres
-    api.get('/genres/list').then(response => setGenres(response.data));
+    api.get('/genres/list').then(response => {
+      const { data } = response;
+
+      const genresData = data.map((d: GenresData) => {
+        return genresPTBR.find(genre => genre.id === d.id);
+      });
+
+      setGenres(genresData);
+    });
 
     // get video url
     api.get('/tv/toptrending/video').then(response => {
