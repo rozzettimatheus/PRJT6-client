@@ -3,18 +3,47 @@ import { lighten } from 'polished';
 import YouTube from 'react-youtube';
 import { ChevronDown } from '@styled-icons/heroicons-outline';
 
-export const GenresContainer = styled.div`
+export const Content = styled.div`
+  max-width: var(--max-width);
+  width: 90%;
+  margin: 0 auto;
   display: flex;
-  padding: 28px 0;
-  justify-content: flex-end;
-  width: 1100px;
+  flex-direction: column;
+  align-items: center;
+`;
+
+export const Header = styled.header`
+  max-width: var(--max-width);
+  width: 100%;
+  border-bottom: 2px solid var(--border-color);
+  padding: 1.4rem 0;
+  text-align: end;
+  margin-top: 2.4rem;
+
+  h1 {
+    font-size: 2rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    color: var(--text);
+  }
+`;
+
+export const GenresContainer = styled.div`
+  padding: 2.8rem 0;
+  width: 100%;
+  max-width: var(--max-width);
+
+  button {
+    margin: 0 0 0 auto;
+  }
 `;
 
 export const GenresSelect = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 8px 12px;
+  padding: 0.8rem 1.2rem;
   background: transparent;
   border: 0;
   position: relative;
@@ -26,42 +55,54 @@ export const GenresSelect = styled.button`
   }
 
   color: var(--text);
-  font-size: 16px;
+  font-size: 1.6rem;
   font-weight: 500;
 `;
 
 export const ArrowDown = styled(ChevronDown)`
-  height: 20px;
-  width: 20px;
+  height: 2rem;
+  width: 2rem;
   color: var(--text);
-  margin-left: 5px;
+  margin-left: 0.5rem;
 `;
 
 const appearFromTop = keyframes`
   from {
     opacity: 0;
-    transform: translate(-25%,-20%);
+    transform: translate(-18%,-10%);
   } 
 
   to {
     opacity: 1;
-    transform: translateY(-25%, 0%);
+    transform: translate(-18%, 0%);
   }
 `;
 
 export const DropdownMenu = styled.div`
   position: absolute;
-  top: 50px;
+  top: 42px;
   width: 202px;
-  max-height: 400px;
-  transform: translateX(-25%);
+  max-height: 350px;
+  transform: translateX(-18%);
   background: var(--bg-nav);
   border: 1px solid var(--border-color);
   border-radius: var(--border-radius);
   overflow-y: scroll;
-  transition: all 0.3s;
+  transition: all 0.4s;
+  z-index: 1000;
+
+  a {
+    font-size: 1.4rem;
+    padding: 1.4rem;
+  }
 
   animation: ${appearFromTop} 0.3s;
+
+  @media (max-height: 502px) {
+    width: 160px;
+    max-height: 270px;
+    top: 35px;
+  }
 
   ::-webkit-scrollbar {
     width: 15px;
@@ -100,27 +141,33 @@ export const Player = styled(YouTube)`
       height: 240px;
     }
   }
+
+  @media (max-width: 800px) {
+    & {
+      display: none;
+    }
+  }
 `;
 
 export const MoviesContainer = styled.div`
   display: flex;
   width: 100%;
+  max-width: var(--max-width);
   flex-direction: column;
+  margin-bottom: 45px;
 `;
 
 export const GenreSection = styled.section`
   display: flex;
   flex-direction: column;
-  width: 100%;
   margin-bottom: 25px;
 `;
 
 export const GenreTitle = styled.div`
-  display: flex;
-  justify-content: flex-end;
+  margin: 0 0 0 auto;
 
   h3 {
-    font-size: 18px;
+    font-size: 1.8rem;
     font-weight: 500;
     margin-bottom: 14px;
 

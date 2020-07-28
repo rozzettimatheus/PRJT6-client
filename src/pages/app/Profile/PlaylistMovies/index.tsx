@@ -12,7 +12,7 @@ import {
   SectionCards,
 } from './styles';
 
-import Wrapper from '../../../../components/Wrapper';
+import Wrapper from '../../../../components/Container';
 import ProfileHeader from '../../../../components/ProfileHeader';
 import BackdropCard from '../../../../components/BackdropCard';
 

@@ -3,16 +3,16 @@ import { StyledIconProps } from '@styled-icons/styled-icon';
 
 import { MenuLink } from './styles';
 
-interface Props {
+interface IProps {
   icon?: React.ComponentType<StyledIconProps>;
   page: string;
-  children: string;
+  title?: string;
   customStyle?: object;
   onClick?: () => void;
 }
 
-const DropdownItem: React.FC<Props> = ({
-  children,
+const DropdownItem: React.FC<IProps> = ({
+  title,
   icon: Icon,
   page,
   customStyle,
@@ -21,7 +21,7 @@ const DropdownItem: React.FC<Props> = ({
   return (
     <MenuLink onClick={onClick} style={customStyle && customStyle} to={page}>
       {Icon && <Icon />}
-      {children}
+      {title}
     </MenuLink>
   );
 };

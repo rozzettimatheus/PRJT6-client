@@ -1,7 +1,7 @@
 import React from 'react';
 import { Play, Add } from '@styled-icons/ionicons-outline';
 
-import Wrapper from '../../../components/Wrapper';
+import Wrapper from '../../../components/Container';
 import ProfileHeader from '../../../components/ProfileHeader';
 import PlaylistItem from '../../../components/PlaylistItem';
 

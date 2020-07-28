@@ -14,7 +14,7 @@ export default createGlobalStyle`
 
   :root {
     --bg: #292929;
-    --bg-nav: #262626;
+    --bg-nav: #222222;
     --input-color: #353535;
     --hover-color: #313131;
     --card-color: #303030;
@@ -34,7 +34,7 @@ export default createGlobalStyle`
     --purple: #bb86fc;
 
     --border-radius: 5px;
-    --nav-size: 60px;
+    --nav-height: 60px;
 
     --max-width: 975px;
 

@@ -37,11 +37,11 @@ const SignIn: React.FC = () => {
         const schema = Yup.object().shape({
           password: Yup.string().min(
             6,
-            'A nova senha deve conter ao menos 6 caracteres',
+            'The new password must have at least 6 characters',
           ),
           password_confirmation: Yup.string().oneOf(
             [Yup.ref('password'), null],
-            'As senhas não batem',
+            `Passwords don't match`,
           ),
         });
 
@@ -59,8 +59,9 @@ const SignIn: React.FC = () => {
 
         addToast({
           type: 'error',
-          title: 'Erro ao resetar senha',
-          description: 'Ocorreu um erro ao resetar sua senha. Tente novamente',
+          title: 'Error changing the password',
+          description:
+            'An error occured during password change. Please, try again later',
         });
       } finally {
         setLoading(false);
@@ -76,24 +77,24 @@ const SignIn: React.FC = () => {
           <Logo />
 
           <Form ref={formRef} onSubmit={handleSubmit}>
-            <h1>Resetar senha</h1>
+            <h1>Reset password</h1>
 
             <Input
               name="password"
               type="password"
               icon={LockClosed}
-              placeholder="Nova senha"
+              placeholder="New password"
             />
 
             <Input
               name="password_confirmation"
               type="password"
               icon={LockClosed}
-              placeholder="Confirmar nova senha"
+              placeholder="Confirm new password"
             />
 
             <Button loading={loading} disabled={loading} type="submit">
-              Alterar senha
+              Change
             </Button>
           </Form>
         </AnimatedContainer>

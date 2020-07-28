@@ -1,15 +1,22 @@
-import React, { useState, useCallback, useEffect } from 'react';
-
-import genresPTBR from '../../../json/genres-ptBR.json';
+import React, {
+  useState,
+  useCallback,
+  useEffect,
+  useRef,
+  useMemo,
+} from 'react';
+import { useHistory } from 'react-router-dom';
 
 import api from '../../../services/api';
 import getVideoIDFromURL from '../../../utils/getVideoIDFromURL';
 
-import Wrapper from '../../../components/Wrapper';
+import Container from '../../../components/Container';
 import DropdownItem from '../../../components/DropdownItem';
 import Loader from '../../../components/Loader';
 
 import {
+  Content,
+  Header,
   GenresContainer,
   GenresSelect,
   ArrowDown,
@@ -38,41 +45,48 @@ interface MovieSectionData {
 }
 
 const Movies: React.FC = () => {
+  const history = useHistory();
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [genres, setGenres] = useState<GenresData[]>([]);
   const [sections, setSections] = useState<MovieSectionData[]>([]);
   const [videoId, setVideoId] = useState('');
+  const buttonRef = useRef(document.createElement('button'));
 
-  const toggleDropdown = useCallback(() => {
+  const handleToggleDropdown = useCallback(() => {
     setOpen(!open);
   }, [open]);
 
-  const closeDropdown = useCallback(() => {
-    if (open) {
-      setOpen(false);
+  const handleCloseDropdown = useCallback(e => {
+    if (buttonRef.current.contains(e.target)) {
+      return;
     }
-  }, [open]);
 
-  const handleSearchMovie = useCallback((id: number) => {
-    api
-      .get(`/movies/detail/${id}`)
-      .then(response => console.log(response.data));
+    setOpen(false);
+  }, []);
+
+  const handleSearchMovie = useCallback(
+    (id: number) => {
+      history.push(`/movies/${id}`);
+    },
+    [history],
+  );
+
+  const formatGenreURL = useCallback((name: string) => {
+    return name.split(' ').join('_').replace(/&/g, 'and').toLowerCase();
   }, []);
 
   useEffect(() => {
-    // get genres
-    api.get('/genres/list').then(response => {
-      const { data } = response;
+    document.addEventListener('mousedown', handleCloseDropdown);
 
-      const genresData = data.map((d: GenresData) => {
-        return genresPTBR.find(genre => genre.id === d.id);
-      });
+    return () => {
+      document.removeEventListener('mousedown', handleCloseDropdown);
+    };
+  }, [handleCloseDropdown]);
 
-      setGenres(genresData);
-    });
+  useEffect(() => {
+    api.get('/genres/list').then(response => setGenres(response.data));
 
-    // get video url
     api.get('/movies/toptrending/video').then(response => {
       const { url } = response.data;
       setVideoId(getVideoIDFromURL(url));
@@ -95,51 +109,60 @@ const Movies: React.FC = () => {
 
   if (loading) {
     return (
-      <Wrapper>
+      <Container>
         <Loader />
-      </Wrapper>
+      </Container>
     );
   }
 
   return (
-    <Wrapper onClick={closeDropdown}>
-      <GenresContainer>
-        <GenresSelect onClick={toggleDropdown}>
-          Buscar por
-          <ArrowDown />
-          {open && (
-            <DropdownMenu>
-              {genres.map(genre => (
-                <DropdownItem key={genre.id} page="/">
-                  {genre.name}
-                </DropdownItem>
-              ))}
-            </DropdownMenu>
-          )}
-        </GenresSelect>
-      </GenresContainer>
+    <Container>
+      <Content>
+        <Header>
+          <h1>Top Movies</h1>
+        </Header>
+        <GenresContainer>
+          <GenresSelect ref={buttonRef} onClick={handleToggleDropdown}>
+            Search for
+            <ArrowDown />
+            {open && (
+              <DropdownMenu>
+                {genres.map(genre => (
+                  <DropdownItem
+                    key={genre.id}
+                    page={`/movies/${formatGenreURL(genre.name)}?id=${
+                      genre.id
+                    }&page=1`}
+                    title={genre.name}
+                  />
+                ))}
+              </DropdownMenu>
+            )}
+          </GenresSelect>
+        </GenresContainer>
 
-      <Player videoId={videoId} />
+        <Player videoId={videoId} />
 
-      <MoviesContainer>
-        {sections.map(section => (
-          <GenreSection key={section.title}>
-            <GenreTitle>
-              <h3>{section.title}</h3>
-            </GenreTitle>
-            <MoviesList>
-              {section.films.map(film => (
-                <PosterCard
-                  onClick={() => handleSearchMovie(film.id)}
-                  key={film.id}
-                  style={{ backgroundImage: `url(${film.poster_path})` }}
-                />
-              ))}
-            </MoviesList>
-          </GenreSection>
-        ))}
-      </MoviesContainer>
-    </Wrapper>
+        <MoviesContainer>
+          {sections.map(section => (
+            <GenreSection key={section.title}>
+              <GenreTitle>
+                <h3>{section.title}</h3>
+              </GenreTitle>
+              <MoviesList>
+                {section.films.map(film => (
+                  <PosterCard
+                    onClick={() => handleSearchMovie(film.id)}
+                    key={film.id}
+                    style={{ backgroundImage: `url(${film.poster_path})` }}
+                  />
+                ))}
+              </MoviesList>
+            </GenreSection>
+          ))}
+        </MoviesContainer>
+      </Content>
+    </Container>
   );
 };
 

@@ -9,6 +9,8 @@ import RegisterProfile from '../pages/auth/public/Register/RegisterProfile';
 import ForgotPassword from '../pages/auth/public/ForgotPassword';
 import ResetPassword from '../pages/auth/public/ResetPassword';
 
+import Page404 from '../pages/auth/public/404';
+
 import UpdateProfile from '../pages/auth/private/UpdateProfile';
 import ChangePassword from '../pages/auth/private/ChangePassword';
 
@@ -17,9 +19,10 @@ import PlaylistMovies from '../pages/app/Profile/PlaylistMovies';
 import PlaylistSeries from '../pages/app/Profile/PlaylistSeries';
 
 import Movies from '../pages/app/Movies';
+import MediaGrid from '../pages/app/MediaGrid';
 import TVSeries from '../pages/app/TVSeries';
-import Upcoming from '../pages/app/Upcoming';
 import Playlists from '../pages/app/Playlists';
+import Search from '../pages/app/Search';
 
 const Routes: React.FC = () => (
   <Switch>
@@ -49,10 +52,18 @@ const Routes: React.FC = () => (
       component={PlaylistSeries}
       isPrivate
     />
-    <Route path="/movies" component={Movies} isPrivate />
-    <Route path="/tvseries" component={TVSeries} isPrivate />
-    <Route path="/upcoming" component={Upcoming} isPrivate />
+
+    <Route exact path="/movies" component={Movies} isPrivate />
+    <Route path="/movies/:genre" component={MediaGrid} isPrivate />
+
+    <Route exact path="/tvseries" component={TVSeries} isPrivate />
+    <Route path="/tvseries/:genre" component={MediaGrid} isPrivate />
+
     <Route path="/playlists" component={Playlists} isPrivate />
+    <Route path="/search" component={Search} isPrivate />
+
+    {/* Not found route */}
+    <Route component={Page404} isPrivate />
   </Switch>
 );
 

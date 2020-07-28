@@ -36,8 +36,8 @@ const ForgotPassword: React.FC = () => {
 
         const schema = Yup.object().shape({
           email: Yup.string()
-            .required('Email obrigatório')
-            .email('E-mail inválido'),
+            .required('E-mail required')
+            .email('Invalid e-mail'),
         });
 
         await schema.validate(data, {
@@ -46,9 +46,9 @@ const ForgotPassword: React.FC = () => {
 
         addToast({
           type: 'success',
-          title: 'E-mail de recuperação enviado',
+          title: 'Password recovery e-mail successfully sent',
           description:
-            'Enviamos um e-mail para recuperar a senha. Por favor, cheque sua caixa de entrada',
+            'An e-mail has been sent to you for password recovery. Please, check your inbox',
         });
       } catch (err) {
         if (err instanceof Yup.ValidationError) {
@@ -61,8 +61,8 @@ const ForgotPassword: React.FC = () => {
 
         addToast({
           type: 'error',
-          title: 'Erro de autenticação',
-          description: 'Ocorreu um erro ao recuperar a senha. Tente novamente',
+          title: 'E-mail not found',
+          description: 'Your e-mail was not found',
         });
       } finally {
         setLoading(false);
@@ -78,16 +78,16 @@ const ForgotPassword: React.FC = () => {
           <Logo />
 
           <Form ref={formRef} onSubmit={handleSubmit}>
-            <h1>Recuperar senha</h1>
+            <h1>Password recovery</h1>
             <Input name="email" icon={Mail} placeholder="E-mail" />
             <Button disabled={loading} loading={loading} type="submit">
-              Recuperar
+              Recover
             </Button>
           </Form>
 
           <Link to="/">
             <GoBackIcon />
-            Voltar ao login
+            Go back to log in
           </Link>
         </AnimatedContainer>
       </Content>

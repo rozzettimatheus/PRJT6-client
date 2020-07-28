@@ -45,12 +45,12 @@ const Register: React.FC = () => {
         formRef.current?.setErrors({});
         const schema = Yup.object().shape({
           username: Yup.string()
-            .required('E-mail obrigatório')
-            .email('E-mail inválido'),
-          password: Yup.string().min(6, 'No mínimo 6 caracteres'),
+            .required('E-mail required')
+            .email('Invalid e-mail'),
+          password: Yup.string().min(6, 'At least 6 characters'),
           password_confirmation: Yup.string().oneOf(
             [Yup.ref('password'), null],
-            'As senhas não batem',
+            `Passwords don't match`,
           ),
         });
 
@@ -80,8 +80,8 @@ const Register: React.FC = () => {
 
         addToast({
           type: 'success',
-          title: 'Username disponível!',
-          description: 'Por favor, conclua o cadastro no CinePlus',
+          title: 'Available username!',
+          description: 'Please, finish your CinePlus account',
         });
 
         history.push(`/register-profile/${access_token}`);
@@ -96,8 +96,9 @@ const Register: React.FC = () => {
 
         addToast({
           type: 'error',
-          title: 'Erro no cadastro',
-          description: 'Ocorreu um erro ao fazer cadastro. Tente novamente',
+          title: 'Sign up failed',
+          description:
+            'An error occured during sign up. Please, try again later',
         });
       } finally {
         setLoading(false);
@@ -114,7 +115,7 @@ const Register: React.FC = () => {
           <Logo />
 
           <Form ref={formRef} onSubmit={handleSubmit}>
-            <h1>Faça seu cadastro</h1>
+            <h1>Sign Up for an account</h1>
 
             <Input name="username" icon={Mail} placeholder="E-mail" />
 
@@ -122,24 +123,24 @@ const Register: React.FC = () => {
               name="password"
               type="password"
               icon={LockClosed}
-              placeholder="Senha"
+              placeholder="Password"
             />
 
             <Input
               name="password_confirmation"
               type="password"
               icon={LockClosed}
-              placeholder="Confirmação"
+              placeholder="Password confirmation"
             />
 
             <Button disabled={loading} loading={loading} type="submit">
-              Continuar
+              Continue
             </Button>
           </Form>
 
           <Link to="/">
             <GoBackIcon />
-            Voltar para login
+            Go back to Log in
           </Link>
         </AnimatedContainer>
       </Content>

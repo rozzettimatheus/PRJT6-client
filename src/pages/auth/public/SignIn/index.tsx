@@ -42,9 +42,9 @@ const SignIn: React.FC = () => {
 
         const schema = Yup.object().shape({
           username: Yup.string()
-            .required('E-mail obrigatório')
-            .email('E-mail inválido'),
-          password: Yup.string().required('Senha obrigatória'),
+            .required('E-mail required')
+            .email('Invalid e-mail'),
+          password: Yup.string().required('Password required'),
         });
 
         await schema.validate(data, {
@@ -70,9 +70,9 @@ const SignIn: React.FC = () => {
 
         addToast({
           type: 'error',
-          title: 'Erro de autenticação',
+          title: 'Authentication failed',
           description:
-            'Ocorreu um erro ao fazer login. Por favor, cheque suas credenciais',
+            'An error occured during sign in. Please, check your credentials',
         });
       } finally {
         setLoading(false);
@@ -88,26 +88,26 @@ const SignIn: React.FC = () => {
           <Logo />
 
           <Form ref={formRef} onSubmit={handleSubmit}>
-            <h1>Faça seu login</h1>
+            <h1>Log In to your account</h1>
 
             <Input name="username" icon={Mail} placeholder="E-mail" />
             <Input
               name="password"
               type="password"
               icon={LockClosed}
-              placeholder="Senha"
+              placeholder="Password"
             />
 
             <Button disabled={loading} loading={loading} type="submit">
-              Entrar
+              Login
             </Button>
 
-            <Link to="/forgot">Esqueci minha senha</Link>
+            <Link to="/forgot">Forgot password?</Link>
           </Form>
 
           <Link to="/register">
             <SignUpIcon />
-            Criar uma conta
+            Sign Up
           </Link>
         </AnimatedContainer>
       </Content>

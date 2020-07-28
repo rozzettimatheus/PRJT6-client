@@ -1,15 +1,16 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, useRef } from 'react';
+import { useHistory } from 'react-router-dom';
 
 import api from '../../../services/api';
 import getVideoIDFromURL from '../../../utils/getVideoIDFromURL';
 
-import genresPTBR from '../../../json/genres-ptBR.json';
-
-import Wrapper from '../../../components/Wrapper';
+import Container from '../../../components/Container';
 import DropdownItem from '../../../components/DropdownItem';
 import Loader from '../../../components/Loader';
 
 import {
+  Content,
+  Header,
   GenresContainer,
   GenresSelect,
   ArrowDown,
@@ -38,35 +39,48 @@ interface SeriesSectionData {
 }
 
 const TVSeries: React.FC = () => {
+  const history = useHistory();
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [genres, setGenres] = useState<GenresData[]>([]);
   const [sections, setSections] = useState<SeriesSectionData[]>([]);
   const [videoId, setVideoId] = useState('');
+  const buttonRef = useRef(document.createElement('button'));
 
-  const toggleDropdown = useCallback(() => {
+  const handleToggleDropdown = useCallback(() => {
     setOpen(!open);
   }, [open]);
 
-  const closeDropdown = useCallback(() => {
-    if (open) {
-      setOpen(false);
+  const handleCloseDropdown = useCallback(e => {
+    if (buttonRef.current.contains(e.target)) {
+      return;
     }
-  }, [open]);
+
+    setOpen(false);
+  }, []);
+
+  const handleSearchTVSerie = useCallback(
+    (id: number) => {
+      history.push(`/tvseries/${id}`);
+    },
+    [history],
+  );
+
+  const formatGenreURL = useCallback((name: string) => {
+    return name.split(' ').join('_').replace(/&/g, 'and').toLowerCase();
+  }, []);
 
   useEffect(() => {
-    // get genres
-    api.get('/genres/list').then(response => {
-      const { data } = response;
+    document.addEventListener('mousedown', handleCloseDropdown);
 
-      const genresData = data.map((d: GenresData) => {
-        return genresPTBR.find(genre => genre.id === d.id);
-      });
+    return () => {
+      document.removeEventListener('mousedown', handleCloseDropdown);
+    };
+  }, [handleCloseDropdown]);
 
-      setGenres(genresData);
-    });
+  useEffect(() => {
+    api.get('/genres/list').then(response => setGenres(response.data));
 
-    // get video url
     api.get('/tv/toptrending/video').then(response => {
       const { url } = response.data;
       setVideoId(getVideoIDFromURL(url));
@@ -87,50 +101,59 @@ const TVSeries: React.FC = () => {
 
   if (loading) {
     return (
-      <Wrapper>
+      <Container>
         <Loader />
-      </Wrapper>
+      </Container>
     );
   }
 
   return (
-    <Wrapper onClick={closeDropdown}>
-      <GenresContainer>
-        <GenresSelect onClick={toggleDropdown}>
-          Buscar por
-          <ArrowDown />
-          {open && (
-            <DropdownMenu>
-              {genres.map(genre => (
-                <DropdownItem key={genre.id} page="/">
-                  {genre.name}
-                </DropdownItem>
-              ))}
-            </DropdownMenu>
-          )}
-        </GenresSelect>
-      </GenresContainer>
+    <Container>
+      <Content>
+        <Header>
+          <h1>Top TV Series</h1>
+        </Header>
 
-      <Player videoId={videoId} />
+        <GenresContainer>
+          <GenresSelect ref={buttonRef} onClick={handleToggleDropdown}>
+            Search for
+            <ArrowDown />
+            {open && (
+              <DropdownMenu>
+                {genres.map(genre => (
+                  <DropdownItem
+                    key={genre.id}
+                    page={`/tvseries/${formatGenreURL(genre.name)}`}
+                    title={genre.name}
+                  />
+                ))}
+              </DropdownMenu>
+            )}
+          </GenresSelect>
+        </GenresContainer>
 
-      <TVSeriesContainer>
-        {sections.map(section => (
-          <GenreSection key={section.title}>
-            <GenreTitle>
-              <h3>{section.title}</h3>
-            </GenreTitle>
-            <TVSeriesList>
-              {section.series.map(serie => (
-                <PosterCard
-                  key={serie.id}
-                  style={{ backgroundImage: `url(${serie.poster_path})` }}
-                />
-              ))}
-            </TVSeriesList>
-          </GenreSection>
-        ))}
-      </TVSeriesContainer>
-    </Wrapper>
+        <Player videoId={videoId} />
+
+        <TVSeriesContainer>
+          {sections.map(section => (
+            <GenreSection key={section.title}>
+              <GenreTitle>
+                <h3>{section.title}</h3>
+              </GenreTitle>
+              <TVSeriesList>
+                {section.series.map(serie => (
+                  <PosterCard
+                    onClick={() => handleSearchTVSerie(serie.id)}
+                    key={serie.id}
+                    style={{ backgroundImage: `url(${serie.poster_path})` }}
+                  />
+                ))}
+              </TVSeriesList>
+            </GenreSection>
+          ))}
+        </TVSeriesContainer>
+      </Content>
+    </Container>
   );
 };
 

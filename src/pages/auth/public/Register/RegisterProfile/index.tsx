@@ -43,7 +43,7 @@ const SignUp: React.FC = () => {
         formRef.current?.setErrors({});
 
         const schema = Yup.object().shape({
-          fullname: Yup.string().required('Nome obrigatório'),
+          fullname: Yup.string().required('Name required'),
           description: Yup.string(),
         });
 
@@ -72,8 +72,8 @@ const SignUp: React.FC = () => {
 
         addToast({
           type: 'success',
-          title: 'Cadastro realizado!',
-          description: 'Você já pode fazer login no Cineplus',
+          title: 'Sign up complete!',
+          description: 'You already can log in to your account in Cineplus',
         });
       } catch (err) {
         if (err instanceof Yup.ValidationError) {
@@ -86,8 +86,9 @@ const SignUp: React.FC = () => {
 
         addToast({
           type: 'error',
-          title: 'Erro no cadastro',
-          description: 'Ocorreu um erro ao fazer cadastro. Tente novamente',
+          title: 'Sign up failed',
+          description:
+            'An error occured during sign up. Please, try again later',
         });
       } finally {
         setLoading(false);
@@ -104,17 +105,17 @@ const SignUp: React.FC = () => {
           <Logo />
 
           <Form ref={formRef} onSubmit={handleSubmit}>
-            <h1>Finalizar cadastro</h1>
+            <h1>Complete your registration</h1>
 
-            <Input name="fullname" icon={User} placeholder="Nome" />
+            <Input name="fullname" icon={User} placeholder="Name" />
             <Input
               name="description"
               icon={Document}
-              placeholder="Descrição (opcional)"
+              placeholder="Description (optional)"
             />
 
             <Button loading={loading} disabled={loading} type="submit">
-              Cadastrar
+              Register
             </Button>
           </Form>
         </AnimatedContainer>

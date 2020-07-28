@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 import api from '../../../services/api';
 
-import Wrapper from '../../../components/Wrapper';
+import Wrapper from '../../../components/Container';
 import PlaylistItem from '../../../components/PlaylistItem';
 import Loader from '../../../components/Loader';
 

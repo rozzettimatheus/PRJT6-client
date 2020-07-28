@@ -1,10 +1,9 @@
 import styled from 'styled-components';
 import { lighten } from 'polished';
 
-export const Container = styled.div`
-  display: flex;
+export const Wrapper = styled.div`
   height: calc(100vh - 60px);
-  justify-content: center;
+  width: 100vw;
   overflow-y: scroll;
 
   ::-webkit-scrollbar {
@@ -24,12 +23,4 @@ export const Container = styled.div`
   ::-webkit-scrollbar-thumb:hover {
     background-color: ${lighten(0.06, '#3a3a3a')};
   }
-`;
-
-export const Content = styled.div`
-  display: flex;
-  height: 100%;
-  max-width: 1110px;
-  flex-direction: column;
-  align-items: center;
 `;

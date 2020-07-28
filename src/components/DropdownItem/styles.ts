@@ -18,14 +18,15 @@ export const MenuLink = styled(Link)`
     width: 20px;
     margin-right: 10px;
     color: var(--text);
-
-    &:hover {
-      color: var(--white);
-    }
+    transition: all 0.3s;
   }
 
   &:hover {
     background-color: var(--hover-color);
     color: var(--white);
+
+    svg {
+      color: var(--white);
+    }
   }
 `;
