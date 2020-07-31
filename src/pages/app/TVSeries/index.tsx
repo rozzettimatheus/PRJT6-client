@@ -123,7 +123,9 @@ const TVSeries: React.FC = () => {
                 {genres.map(genre => (
                   <DropdownItem
                     key={genre.id}
-                    page={`/tvseries/${formatGenreURL(genre.name)}`}
+                    page={`/tvseries/${formatGenreURL(genre.name)}?id=${
+                      genre.id
+                    }&page=1`}
                     title={genre.name}
                   />
                 ))}

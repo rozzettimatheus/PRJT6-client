@@ -1,4 +1,8 @@
-import React, { useMemo } from 'react';
+/* eslint-disable prefer-destructuring */
+import React, { useCallback, useMemo } from 'react';
+
+import randomUI from '../../utils/generateRandomColors';
+import formatName from '../../utils/formatPlaylistName';
 
 import {
   Container,
@@ -10,7 +14,6 @@ import {
   LockIcon,
   Delete,
   DeleteIcon,
-  AvatarIcon,
 } from './styles';
 
 interface Props {
@@ -31,13 +34,21 @@ const PlaylistItem: React.FC<Props> = ({
   isDeletable,
 }) => {
   const formatItems = useMemo(
-    () => (items === 1 ? 'item salvo' : 'items salvos'),
+    () => (items === 1 ? 'saved item' : 'saved items'),
     [items],
   );
   const formatFollowers = useMemo(
-    () => (followers === 1 ? 'seguidor' : 'seguidores'),
+    () => (followers === 1 ? 'follower' : 'followers'),
     [followers],
   );
+
+  const formatAvatarSrc = useCallback(() => {
+    const { background, color } = randomUI();
+
+    const { first, second } = formatName(title);
+
+    return `https://ui-avatars.com/api/?name=${first}+${second}&rounded=true&background=${background}&color=${color}`;
+  }, [title]);
 
   return (
     <Container to={page}>
@@ -45,7 +56,7 @@ const PlaylistItem: React.FC<Props> = ({
         <PlaylistInfoContainer>
           <AvatarWrapper>
             <div>
-              <AvatarIcon />
+              <img src={formatAvatarSrc()} alt={title} />
             </div>
           </AvatarWrapper>
 

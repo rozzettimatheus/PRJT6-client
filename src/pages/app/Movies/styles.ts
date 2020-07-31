@@ -1,4 +1,5 @@
 import styled, { keyframes } from 'styled-components';
+import { Link } from 'react-router-dom';
 import { lighten } from 'polished';
 import YouTube from 'react-youtube';
 import { ChevronDown } from '@styled-icons/heroicons-outline';
@@ -202,7 +203,7 @@ export const MoviesList = styled.div`
   }
 `;
 
-export const PosterCard = styled.button`
+export const PosterCard = styled(Link)`
   min-width: 168px;
   height: 225px;
   display: flex;
@@ -220,7 +221,7 @@ export const PosterCard = styled.button`
     transform: translateY(-7px);
   }
 
-  & + button {
+  & + a {
     margin-left: 42px;
   }
 `;

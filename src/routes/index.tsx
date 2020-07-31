@@ -20,7 +20,11 @@ import PlaylistSeries from '../pages/app/Profile/PlaylistSeries';
 
 import Movies from '../pages/app/Movies';
 import MediaGrid from '../pages/app/MediaGrid';
+import MovieDetails from '../pages/app/Movies/MovieDetails';
+import Upcoming from '../pages/app/Upcoming';
+
 import TVSeries from '../pages/app/TVSeries';
+
 import Playlists from '../pages/app/Playlists';
 import Search from '../pages/app/Search';
 
@@ -55,6 +59,9 @@ const Routes: React.FC = () => (
 
     <Route exact path="/movies" component={Movies} isPrivate />
     <Route path="/movies/:genre" component={MediaGrid} isPrivate />
+    <Route path="/movie/:id" component={MovieDetails} isPrivate />
+
+    <Route path="/upcoming/movies" component={Upcoming} isPrivate />
 
     <Route exact path="/tvseries" component={TVSeries} isPrivate />
     <Route path="/tvseries/:genre" component={MediaGrid} isPrivate />

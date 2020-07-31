@@ -1,10 +1,4 @@
-import React, {
-  useState,
-  useCallback,
-  useEffect,
-  useRef,
-  useMemo,
-} from 'react';
+import React, { useState, useCallback, useEffect, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import api from '../../../services/api';
@@ -64,13 +58,6 @@ const Movies: React.FC = () => {
 
     setOpen(false);
   }, []);
-
-  const handleSearchMovie = useCallback(
-    (id: number) => {
-      history.push(`/movies/${id}`);
-    },
-    [history],
-  );
 
   const formatGenreURL = useCallback((name: string) => {
     return name.split(' ').join('_').replace(/&/g, 'and').toLowerCase();
@@ -152,7 +139,7 @@ const Movies: React.FC = () => {
               <MoviesList>
                 {section.films.map(film => (
                   <PosterCard
-                    onClick={() => handleSearchMovie(film.id)}
+                    to={`/movie/${film.id}`}
                     key={film.id}
                     style={{ backgroundImage: `url(${film.poster_path})` }}
                   />

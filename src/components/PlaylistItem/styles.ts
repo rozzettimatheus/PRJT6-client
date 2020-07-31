@@ -8,8 +8,8 @@ export const Container = styled(Link)`
   display: flex;
   justify-content: center;
   align-items: center;
-  max-width: 800px;
-  width: 50vw;
+  max-width: calc(var(--max-width) - 150px);
+  width: 70%;
   min-width: 400px;
   max-height: 90px;
   height: 15vh;
@@ -28,7 +28,7 @@ export const Container = styled(Link)`
   }
 
   & + a {
-    margin-top: 16px;
+    margin-top: 1.6rem;
   }
 
   > div {
@@ -47,11 +47,11 @@ export const PlaylistInfoContainer = styled.div`
 
 export const AvatarWrapper = styled.div`
   display: flex;
-  margin-right: 24px;
+  margin-right: 2.4rem;
 
-  /* img {
-    height: 5.2rem;
-  } */
+  img {
+    height: 4.8rem;
+  }
 `;
 
 export const AvatarIcon = styled(Play)`
@@ -70,12 +70,13 @@ export const Info = styled.div`
   & > div:first-of-type {
     display: flex;
     align-items: center;
-    margin-bottom: 12px;
+    margin-bottom: 1.2rem;
+    white-space: nowrap;
 
     strong {
-      font-size: 1.8rem;
+      font-size: 1.6rem;
       color: var(--text);
-      margin-right: 24px;
+      margin-right: 2.4rem;
       letter-spacing: 0.4px;
     }
   }
@@ -84,7 +85,7 @@ export const Info = styled.div`
 export const UserNumbers = styled.div`
   span {
     color: var(--text-darken);
-    font-size: 1.8rem;
+    font-size: 1.6rem;
 
     strong {
       font-weight: bold;

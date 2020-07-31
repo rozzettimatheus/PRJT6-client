@@ -1,21 +1,24 @@
 import styled from 'styled-components';
 
 export const PlaylistContainer = styled.div`
+  max-width: var(--max-width);
+  width: 90%;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 28px 0;
 `;
 
 export const PlaylistHeader = styled.div`
-  width: 1110px;
+  max-width: var(--max-width);
+  width: 100%;
   border-bottom: 2px solid var(--border-color);
-  padding: 14px 0;
+  padding: 1.4rem 0;
   text-align: end;
-  margin-bottom: 48px;
+  margin: 2.4rem 0;
 
   h1 {
-    font-size: 18px;
+    font-size: 2rem;
     font-weight: bold;
     text-transform: uppercase;
     letter-spacing: 0.3px;

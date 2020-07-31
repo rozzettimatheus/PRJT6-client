@@ -3,6 +3,7 @@ import { useRouteMatch, useLocation } from 'react-router-dom';
 
 import api from '../../../services/api';
 
+import Loader from '../../../components/Loader';
 import Container from '../../../components/Container';
 import { Content, Header, Grid, PosterCard } from './styles';
 
@@ -16,6 +17,7 @@ interface PosterData {
 }
 
 const MediaGrid: React.FC = () => {
+  const [loading, setLoading] = useState(false);
   const { params } = useRouteMatch<IGenreParams>();
   const location = useLocation();
   const [posters, setPosters] = useState<PosterData[]>([]);
@@ -28,12 +30,36 @@ const MediaGrid: React.FC = () => {
   }, []);
 
   useEffect(() => {
+    setLoading(true);
     const param = new URLSearchParams(location.search);
 
+    let type = 'movies';
+
+    if (location.pathname.search('tvseries')) {
+      type = 'tv';
+    }
+
     api
-      .get(`/movies/bygenre/${param.get('page')}/${param.get('id')}`)
-      .then(response => setPosters(response.data));
-  }, [location.search]);
+      .get(`/${type}/bygenre/${param.get('page')}/${param.get('id')}`)
+      .then(response => {
+        const rawPosters: PosterData[] = response.data;
+
+        const filteredPosters = rawPosters.filter(
+          poster => Object.keys(poster).length !== 0,
+        );
+
+        setPosters(filteredPosters);
+        setLoading(false);
+      });
+  }, [location]);
+
+  if (loading) {
+    return (
+      <Container>
+        <Loader />
+      </Container>
+    );
+  }
 
   return (
     <Container>

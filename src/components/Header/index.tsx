@@ -72,8 +72,8 @@ const Header: React.FC = () => {
             </li>
             <li>
               <NavLink
-                to="/upcoming"
-                title="See the most upcoming movies and tv series are coming through"
+                to="/upcoming/movies?page=1"
+                title="See the most upcoming movies coming through"
               >
                 <CalendarEvent color="#dad7d2" size={25} />
               </NavLink>

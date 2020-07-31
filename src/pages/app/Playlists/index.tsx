@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 import api from '../../../services/api';
 
-import Wrapper from '../../../components/Container';
+import Container from '../../../components/Container';
 import PlaylistItem from '../../../components/PlaylistItem';
 import Loader from '../../../components/Loader';
 
@@ -35,17 +35,17 @@ const Playlists: React.FC = () => {
 
   if (loading) {
     return (
-      <Wrapper>
+      <Container>
         <Loader />
-      </Wrapper>
+      </Container>
     );
   }
 
   return (
-    <Wrapper>
+    <Container>
       <PlaylistContainer>
         <PlaylistHeader>
-          <h1>mais populares</h1>
+          <h1>Top Playlists</h1>
         </PlaylistHeader>
 
         {lists.map(list => (
@@ -58,7 +58,7 @@ const Playlists: React.FC = () => {
           />
         ))}
       </PlaylistContainer>
-    </Wrapper>
+    </Container>
   );
 };
 
