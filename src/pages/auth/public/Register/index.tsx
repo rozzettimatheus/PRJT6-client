@@ -22,13 +22,13 @@ import {
   GoBackIcon,
 } from './styles';
 
-interface IRegisterFormData {
+interface RegisterFormData {
   username: string;
   password: string;
   password_confirmation: string;
 }
 
-interface ITokenResponse {
+interface TokenResponse {
   access_token: string;
 }
 
@@ -39,7 +39,7 @@ const Register: React.FC = () => {
   const history = useHistory();
 
   const handleSubmit = useCallback(
-    async (data: IRegisterFormData) => {
+    async (data: RegisterFormData) => {
       try {
         setLoading(true);
         formRef.current?.setErrors({});
@@ -65,7 +65,7 @@ const Register: React.FC = () => {
           password,
         });
 
-        const response = await api.post<ITokenResponse>(
+        const response = await api.post<TokenResponse>(
           'auth/token',
           `username=${username}&password=${password}&grant_type=password`,
           {

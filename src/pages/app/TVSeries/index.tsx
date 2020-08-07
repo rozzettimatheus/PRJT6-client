@@ -1,5 +1,4 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react';
-import { useHistory } from 'react-router-dom';
 
 import api from '../../../services/api';
 import getVideoIDFromURL from '../../../utils/getVideoIDFromURL';
@@ -7,19 +6,14 @@ import getVideoIDFromURL from '../../../utils/getVideoIDFromURL';
 import Container from '../../../components/Container';
 import DropdownItem from '../../../components/DropdownItem';
 import Loader from '../../../components/Loader';
+import ScrollableSection from '../../../components/ScrollableSection';
 
 import {
-  Content,
   Header,
   GenresContainer,
   GenresSelect,
   ArrowDown,
   DropdownMenu,
-  TVSeriesContainer,
-  GenreSection,
-  GenreTitle,
-  TVSeriesList,
-  PosterCard,
   Player,
 } from './styles';
 
@@ -39,7 +33,6 @@ interface SeriesSectionData {
 }
 
 const TVSeries: React.FC = () => {
-  const history = useHistory();
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [genres, setGenres] = useState<GenresData[]>([]);
@@ -58,13 +51,6 @@ const TVSeries: React.FC = () => {
 
     setOpen(false);
   }, []);
-
-  const handleSearchTVSerie = useCallback(
-    (id: number) => {
-      history.push(`/tvseries/${id}`);
-    },
-    [history],
-  );
 
   const formatGenreURL = useCallback((name: string) => {
     return name.split(' ').join('_').replace(/&/g, 'and').toLowerCase();
@@ -100,61 +86,45 @@ const TVSeries: React.FC = () => {
   }, []);
 
   if (loading) {
-    return (
-      <Container>
-        <Loader />
-      </Container>
-    );
+    return <Loader />;
   }
 
   return (
     <Container>
-      <Content>
-        <Header>
-          <h1>Top TV Series</h1>
-        </Header>
+      <Header>
+        <h1>Top TV Series</h1>
+      </Header>
 
-        <GenresContainer>
-          <GenresSelect ref={buttonRef} onClick={handleToggleDropdown}>
-            Search for
-            <ArrowDown />
-            {open && (
-              <DropdownMenu>
-                {genres.map(genre => (
-                  <DropdownItem
-                    key={genre.id}
-                    page={`/tvseries/${formatGenreURL(genre.name)}?id=${
-                      genre.id
-                    }&page=1`}
-                    title={genre.name}
-                  />
-                ))}
-              </DropdownMenu>
-            )}
-          </GenresSelect>
-        </GenresContainer>
+      <GenresContainer>
+        <GenresSelect ref={buttonRef} onClick={handleToggleDropdown}>
+          Search for
+          <ArrowDown />
+          {open && (
+            <DropdownMenu>
+              {genres.map(genre => (
+                <DropdownItem
+                  key={genre.id}
+                  page={`/tvseries/${formatGenreURL(genre.name)}?id=${
+                    genre.id
+                  }&page=1`}
+                  title={genre.name}
+                />
+              ))}
+            </DropdownMenu>
+          )}
+        </GenresSelect>
+      </GenresContainer>
 
-        <Player videoId={videoId} />
+      <Player videoId={videoId} />
 
-        <TVSeriesContainer>
-          {sections.map(section => (
-            <GenreSection key={section.title}>
-              <GenreTitle>
-                <h3>{section.title}</h3>
-              </GenreTitle>
-              <TVSeriesList>
-                {section.series.map(serie => (
-                  <PosterCard
-                    onClick={() => handleSearchTVSerie(serie.id)}
-                    key={serie.id}
-                    style={{ backgroundImage: `url(${serie.poster_path})` }}
-                  />
-                ))}
-              </TVSeriesList>
-            </GenreSection>
-          ))}
-        </TVSeriesContainer>
-      </Content>
+      {sections.map(section => (
+        <ScrollableSection
+          key={section.title}
+          title={section.title}
+          type="tvseries"
+          data={section.series}
+        />
+      ))}
     </Container>
   );
 };

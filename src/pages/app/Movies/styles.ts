@@ -1,17 +1,7 @@
 import styled, { keyframes } from 'styled-components';
-import { Link } from 'react-router-dom';
 import { lighten } from 'polished';
 import YouTube from 'react-youtube';
 import { ChevronDown } from '@styled-icons/heroicons-outline';
-
-export const Content = styled.div`
-  max-width: var(--max-width);
-  width: 90%;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
 
 export const Header = styled.header`
   max-width: var(--max-width);
@@ -37,6 +27,12 @@ export const GenresContainer = styled.div`
 
   button {
     margin: 0 0 0 auto;
+  }
+
+  @media (max-width: 800px) {
+    button {
+      margin: 0 auto;
+    }
   }
 `;
 
@@ -147,81 +143,5 @@ export const Player = styled(YouTube)`
     & {
       display: none;
     }
-  }
-`;
-
-export const MoviesContainer = styled.div`
-  display: flex;
-  width: 100%;
-  max-width: var(--max-width);
-  flex-direction: column;
-  margin-bottom: 45px;
-`;
-
-export const GenreSection = styled.section`
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 25px;
-`;
-
-export const GenreTitle = styled.div`
-  margin: 0 0 0 auto;
-
-  h3 {
-    font-size: 1.8rem;
-    font-weight: 500;
-    margin-bottom: 14px;
-
-    color: var(--title);
-  }
-`;
-
-export const MoviesList = styled.div`
-  display: flex;
-  border-top: 2px solid var(--border-color);
-  padding-top: 2.5rem;
-  height: 300px;
-
-  overflow-x: auto;
-
-  ::-webkit-scrollbar {
-    width: 15px;
-  }
-
-  ::-webkit-scrollbar-track {
-    background: var(--bg);
-  }
-
-  ::-webkit-scrollbar-thumb {
-    background-color: var(--border-color);
-    border-radius: var(--border-radius);
-    transition: background-color 0.2s;
-  }
-
-  ::-webkit-scrollbar-thumb:hover {
-    background-color: ${lighten(0.06, '#3a3a3a')};
-  }
-`;
-
-export const PosterCard = styled(Link)`
-  min-width: 168px;
-  height: 225px;
-  display: flex;
-  justify-content: center;
-  position: relative;
-  border: 0;
-  border-radius: var(--border-radius);
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  overflow: hidden;
-  transition: transform 0.3s ease;
-
-  &:hover {
-    transform: translateY(-7px);
-  }
-
-  & + a {
-    margin-left: 42px;
   }
 `;

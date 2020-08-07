@@ -36,11 +36,7 @@ const Upcoming: React.FC = () => {
   }, [search]);
 
   if (loading) {
-    return (
-      <Container>
-        <Loader />
-      </Container>
-    );
+    return <Loader />;
   }
 
   return (

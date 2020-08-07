@@ -24,3 +24,13 @@ export const Wrapper = styled.div`
     background-color: ${lighten(0.06, '#3a3a3a')};
   }
 `;
+
+export const Content = styled.div`
+  max-width: var(--max-width);
+  width: 90%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 45px;
+`;

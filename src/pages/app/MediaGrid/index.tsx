@@ -5,9 +5,9 @@ import api from '../../../services/api';
 
 import Loader from '../../../components/Loader';
 import Container from '../../../components/Container';
-import { Content, Header, Grid, PosterCard } from './styles';
+import { Header, Grid, PosterCard } from './styles';
 
-interface IGenreParams {
+interface GenreParams {
   genre: string;
 }
 
@@ -18,7 +18,7 @@ interface PosterData {
 
 const MediaGrid: React.FC = () => {
   const [loading, setLoading] = useState(false);
-  const { params } = useRouteMatch<IGenreParams>();
+  const { params } = useRouteMatch<GenreParams>();
   const location = useLocation();
   const [posters, setPosters] = useState<PosterData[]>([]);
 
@@ -35,7 +35,7 @@ const MediaGrid: React.FC = () => {
 
     let type = 'movies';
 
-    if (location.pathname.search('tvseries')) {
+    if (location.pathname.search('tvseries') >= 0) {
       type = 'tv';
     }
 
@@ -54,30 +54,24 @@ const MediaGrid: React.FC = () => {
   }, [location]);
 
   if (loading) {
-    return (
-      <Container>
-        <Loader />
-      </Container>
-    );
+    return <Loader />;
   }
 
   return (
     <Container>
-      <Content>
-        <Header>
-          <h2>{formatHeaderTitle(params.genre)}</h2>
-        </Header>
+      <Header>
+        <h2>{formatHeaderTitle(params.genre)}</h2>
+      </Header>
 
-        <Grid>
-          {posters.map(poster => (
-            <PosterCard
-              key={poster.id}
-              onClick={() => console.log('ola')}
-              style={{ backgroundImage: `url(${poster.poster_path})` }}
-            />
-          ))}
-        </Grid>
-      </Content>
+      <Grid>
+        {posters.map(poster => (
+          <PosterCard
+            key={poster.id}
+            onClick={() => console.log('ola')}
+            style={{ backgroundImage: `url(${poster.poster_path})` }}
+          />
+        ))}
+      </Grid>
     </Container>
   );
 };

@@ -19,7 +19,7 @@ import {
   GoBackIcon,
 } from './styles';
 
-interface IForgotPasswordFormData {
+interface ForgotPasswordFormData {
   email: string;
 }
 
@@ -29,7 +29,7 @@ const ForgotPassword: React.FC = () => {
   const { addToast } = useToast();
 
   const handleSubmit = useCallback(
-    async (data: IForgotPasswordFormData) => {
+    async (data: ForgotPasswordFormData) => {
       try {
         setLoading(true);
         formRef.current?.setErrors({});

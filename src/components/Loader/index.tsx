@@ -8,7 +8,7 @@ const Loader: React.FC = () => {
   return (
     <Container>
       <SpinnerSVG
-        style={{ background: 'transparent', height: '70px', width: '70px' }}
+        style={{ background: 'transparent', height: '55px', width: '55px' }}
       />
     </Container>
   );

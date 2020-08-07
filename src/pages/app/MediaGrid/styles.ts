@@ -1,15 +1,5 @@
 import styled from 'styled-components';
 
-export const Content = styled.div`
-  max-width: var(--max-width);
-  width: 90%;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 45px;
-`;
-
 export const Header = styled.header`
   max-width: var(--max-width);
   width: 100%;

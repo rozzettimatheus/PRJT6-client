@@ -3,7 +3,7 @@ import { StyledIconProps } from '@styled-icons/styled-icon';
 
 import { MenuLink } from './styles';
 
-interface IProps {
+interface Props {
   icon?: React.ComponentType<StyledIconProps>;
   page: string;
   title?: string;
@@ -11,7 +11,7 @@ interface IProps {
   onClick?: () => void;
 }
 
-const DropdownItem: React.FC<IProps> = ({
+const DropdownItem: React.FC<Props> = ({
   title,
   icon: Icon,
   page,

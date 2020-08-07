@@ -34,11 +34,7 @@ const Playlists: React.FC = () => {
   }, []);
 
   if (loading) {
-    return (
-      <Container>
-        <Loader />
-      </Container>
-    );
+    return <Loader />;
   }
 
   return (
@@ -51,7 +47,7 @@ const Playlists: React.FC = () => {
         {lists.map(list => (
           <PlaylistItem
             key={list.id}
-            page="/"
+            page={`/playlists/${list.id}`}
             title={list.name}
             items={list.items}
             followers={list.followers}

@@ -1,5 +1,4 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react';
-import { useHistory } from 'react-router-dom';
 
 import api from '../../../services/api';
 import getVideoIDFromURL from '../../../utils/getVideoIDFromURL';
@@ -7,19 +6,14 @@ import getVideoIDFromURL from '../../../utils/getVideoIDFromURL';
 import Container from '../../../components/Container';
 import DropdownItem from '../../../components/DropdownItem';
 import Loader from '../../../components/Loader';
+import ScrollableSection from '../../../components/ScrollableSection';
 
 import {
-  Content,
   Header,
   GenresContainer,
   GenresSelect,
   ArrowDown,
   DropdownMenu,
-  MoviesContainer,
-  GenreSection,
-  GenreTitle,
-  MoviesList,
-  PosterCard,
   Player,
 } from './styles';
 
@@ -39,7 +33,6 @@ interface MovieSectionData {
 }
 
 const Movies: React.FC = () => {
-  const history = useHistory();
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [genres, setGenres] = useState<GenresData[]>([]);
@@ -95,60 +88,44 @@ const Movies: React.FC = () => {
   }, []);
 
   if (loading) {
-    return (
-      <Container>
-        <Loader />
-      </Container>
-    );
+    return <Loader />;
   }
 
   return (
     <Container>
-      <Content>
-        <Header>
-          <h1>Top Movies</h1>
-        </Header>
-        <GenresContainer>
-          <GenresSelect ref={buttonRef} onClick={handleToggleDropdown}>
-            Search for
-            <ArrowDown />
-            {open && (
-              <DropdownMenu>
-                {genres.map(genre => (
-                  <DropdownItem
-                    key={genre.id}
-                    page={`/movies/${formatGenreURL(genre.name)}?id=${
-                      genre.id
-                    }&page=1`}
-                    title={genre.name}
-                  />
-                ))}
-              </DropdownMenu>
-            )}
-          </GenresSelect>
-        </GenresContainer>
+      <Header>
+        <h1>Top Movies</h1>
+      </Header>
+      <GenresContainer>
+        <GenresSelect ref={buttonRef} onClick={handleToggleDropdown}>
+          Search for
+          <ArrowDown />
+          {open && (
+            <DropdownMenu>
+              {genres.map(genre => (
+                <DropdownItem
+                  key={genre.id}
+                  page={`/movies/${formatGenreURL(genre.name)}?id=${
+                    genre.id
+                  }&page=1`}
+                  title={genre.name}
+                />
+              ))}
+            </DropdownMenu>
+          )}
+        </GenresSelect>
+      </GenresContainer>
 
-        <Player videoId={videoId} />
+      <Player videoId={videoId} />
 
-        <MoviesContainer>
-          {sections.map(section => (
-            <GenreSection key={section.title}>
-              <GenreTitle>
-                <h3>{section.title}</h3>
-              </GenreTitle>
-              <MoviesList>
-                {section.films.map(film => (
-                  <PosterCard
-                    to={`/movie/${film.id}`}
-                    key={film.id}
-                    style={{ backgroundImage: `url(${film.poster_path})` }}
-                  />
-                ))}
-              </MoviesList>
-            </GenreSection>
-          ))}
-        </MoviesContainer>
-      </Content>
+      {sections.map(section => (
+        <ScrollableSection
+          key={section.title}
+          title={section.title}
+          type="movie"
+          data={section.films}
+        />
+      ))}
     </Container>
   );
 };

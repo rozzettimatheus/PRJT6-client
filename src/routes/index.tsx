@@ -26,6 +26,7 @@ import Upcoming from '../pages/app/Upcoming';
 import TVSeries from '../pages/app/TVSeries';
 
 import Playlists from '../pages/app/Playlists';
+import PlaylistDetails from '../pages/app/Playlists/PlaylistDetails';
 import Search from '../pages/app/Search';
 
 const Routes: React.FC = () => (
@@ -66,7 +67,9 @@ const Routes: React.FC = () => (
     <Route exact path="/tvseries" component={TVSeries} isPrivate />
     <Route path="/tvseries/:genre" component={MediaGrid} isPrivate />
 
-    <Route path="/playlists" component={Playlists} isPrivate />
+    <Route exact path="/playlists" component={Playlists} isPrivate />
+    <Route path="/playlists/:id" component={PlaylistDetails} isPrivate />
+
     <Route path="/search" component={Search} isPrivate />
 
     {/* Not found route */}

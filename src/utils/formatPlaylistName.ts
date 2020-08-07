@@ -1,8 +1,8 @@
-interface INameOpt {
+interface NameOpt {
   first: string;
   second: string;
 }
-export default function formatName(name: string): INameOpt {
+export default function formatName(name: string): NameOpt {
   const container = name.split(' ');
   const [first, second] = container;
 

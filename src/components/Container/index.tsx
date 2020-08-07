@@ -1,13 +1,13 @@
 import React from 'react';
 
-import { Wrapper } from './styles';
+import { Wrapper, Content } from './styles';
 
-interface ClickProps {
-  onClick?: () => void;
-}
-
-const Container: React.FC<ClickProps> = ({ children, onClick }) => {
-  return <Wrapper onClick={onClick}>{children}</Wrapper>;
+const Container: React.FC = ({ children }) => {
+  return (
+    <Wrapper>
+      <Content>{children}</Content>
+    </Wrapper>
+  );
 };
 
 export default Container;

@@ -20,11 +20,11 @@ import {
   AnimatedContainer,
 } from './styles';
 
-interface ITokenParams {
+interface TokenParams {
   token: string;
 }
 
-interface IRegisterProfileData {
+interface RegisterProfileData {
   fullname: string;
   description: string;
 }
@@ -34,10 +34,10 @@ const SignUp: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
   const { addToast } = useToast();
   const history = useHistory();
-  const { params } = useRouteMatch<ITokenParams>();
+  const { params } = useRouteMatch<TokenParams>();
 
   const handleSubmit = useCallback(
-    async (data: IRegisterProfileData) => {
+    async (data: RegisterProfileData) => {
       try {
         setLoading(true);
         formRef.current?.setErrors({});

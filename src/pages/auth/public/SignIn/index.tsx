@@ -22,7 +22,7 @@ import {
   SignUpIcon,
 } from './styles';
 
-interface ISignInFormData {
+interface SignInFormData {
   username: string;
   password: string;
 }
@@ -35,7 +35,7 @@ const SignIn: React.FC = () => {
   const history = useHistory();
 
   const handleSubmit = useCallback(
-    async (data: ISignInFormData) => {
+    async (data: SignInFormData) => {
       try {
         setLoading(true);
         formRef.current?.setErrors({});
