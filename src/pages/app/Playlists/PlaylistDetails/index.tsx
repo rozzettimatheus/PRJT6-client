@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { useRouteMatch } from 'react-router-dom';
+import { useRouteMatch, useHistory } from 'react-router-dom';
 import api from '../../../../services/api';
 
 import Container from '../../../../components/Container';
+import ScrollableSection from '../../../../components/ScrollableSection';
+
+import avatar from '../../../../assets/avatar.png';
 
 import {
   Header,
@@ -10,10 +13,10 @@ import {
   Title,
   FollowersList,
   AvatarUser,
-  MediaSection,
-  MediaList,
-  MediaCard,
+  Empty,
 } from './styles';
+
+import Loader from '../../../../components/Loader';
 
 interface RouteParam {
   id: string;
@@ -30,15 +33,14 @@ interface Item {
   id: number;
   itemType: string;
   poster_path: string;
-  movietvshowId: number;
 }
 
 interface PlaylistResponse {
   id: number;
   name: string;
-  items: Array<Item>;
+  movies: Array<Item>;
+  series: Array<Item>;
   playlistFollowers: Array<Follower>;
-  isPrivate: boolean;
   qtdFollowers: number;
   qtdMovie: number;
   qtdTv: number;
@@ -46,47 +48,55 @@ interface PlaylistResponse {
 }
 
 const PlaylistDetails: React.FC = () => {
+  const history = useHistory();
+  const [loading, setLoading] = useState(false);
   const { params } = useRouteMatch<RouteParam>();
   const [playlistData, setPlaylistData] = useState<PlaylistResponse>(
     {} as PlaylistResponse,
   );
 
   useEffect(() => {
+    setLoading(true);
     api.get(`playlist/detail/${params.id}`).then(response => {
       const {
         id,
         name,
-        private: isPrivate,
-        qtdFollowers,
-        qtdMovie,
-        qtdTv,
         userId,
         items,
         playlistfollowers: playlistFollowers,
       } = response.data;
 
+      const movies = items.filter(
+        (item: Item) => item.itemType.toLocaleLowerCase() === 'movie',
+      );
+
+      const series = items.filter(
+        (item: Item) => item.itemType.toLocaleLowerCase() === 'tv',
+      );
+
       setPlaylistData({
         id,
         name,
-        isPrivate,
-        qtdFollowers,
-        qtdMovie,
-        qtdTv,
+        qtdFollowers: playlistFollowers.length,
+        qtdMovie: movies.length,
+        qtdTv: series.length,
         userId,
-        items,
+        movies,
+        series,
         playlistFollowers,
       });
     });
+
+    setLoading(false);
   }, [params.id]);
+
+  if (loading) {
+    return <Loader />;
+  }
 
   return (
     <Container>
       <Header>
-        <img
-          src="https://ui-avatars.com/api/?rounded=true&size=128"
-          alt={playlistData.name}
-        />
-
         <h2>{playlistData.name}</h2>
 
         <div>
@@ -107,62 +117,55 @@ const PlaylistDetails: React.FC = () => {
         </div>
       </Header>
 
-      <FollowersSection>
-        <Title>
-          <h3>Followers</h3>
-        </Title>
-        {playlistData.playlistFollowers ? (
+      {playlistData.playlistFollowers && (
+        <FollowersSection>
+          <Title>
+            <h3>Followers</h3>
+          </Title>
           <FollowersList>
-            {playlistData.playlistFollowers.map(follower => (
-              <AvatarUser key={follower.id}>
-                <img
-                  src="https://instagram.faqa3-1.fna.fbcdn.net/v/t51.2885-19/s150x150/100987893_249534669715410_46825820815097856_n.jpg?_nc_ht=instagram.faqa3-1.fna.fbcdn.net&_nc_ohc=dszZJEMy3KMAX_0k5Xy&oh=1f47299238c9be020670134584b46411&oe=5F4E987E"
-                  alt={follower.name}
-                />
-                <span>{follower.name}</span>
-              </AvatarUser>
-            ))}
+            {playlistData.qtdFollowers ? (
+              playlistData.playlistFollowers.map(follower => (
+                <AvatarUser
+                  key={follower.id}
+                  onClick={() => history.push(`/profiles/${follower.id}`)}
+                >
+                  <img
+                    src={
+                      follower.image
+                        ? `https://cineplus.herokuapp.com/imagens/${follower.image}`
+                        : avatar
+                    }
+                    alt={follower.name}
+                  />
+                  <span>{follower.name}</span>
+                </AvatarUser>
+              ))
+            ) : (
+              <Empty>
+                <p>Ops, no followers here :(</p>
+              </Empty>
+            )}
           </FollowersList>
-        ) : (
-          <div>
-            <h1>vazio</h1>
-          </div>
-        )}
-      </FollowersSection>
+        </FollowersSection>
+      )}
 
-      <MediaSection>
-        <Title>
-          <h3>Movies</h3>
-        </Title>
-        <MediaList>
-          {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(number => (
-            <MediaCard
-              key={number}
-              to="/"
-              style={{
-                backgroundImage: `url(https://i.pinimg.com/originals/96/a0/0d/96a00d42b0ff8f80b7cdf2926a211e47.jpg)`,
-              }}
-            />
-          ))}
-        </MediaList>
-      </MediaSection>
+      {playlistData.movies && (
+        <ScrollableSection
+          title="Movies"
+          type="movie"
+          data={playlistData.movies}
+          fallback="Ops, no movies here :("
+        />
+      )}
 
-      <MediaSection>
-        <Title>
-          <h3>TV Series</h3>
-        </Title>
-        <MediaList>
-          {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(number => (
-            <MediaCard
-              key={number}
-              to="/"
-              style={{
-                backgroundImage: `url(https://i.pinimg.com/originals/96/a0/0d/96a00d42b0ff8f80b7cdf2926a211e47.jpg)`,
-              }}
-            />
-          ))}
-        </MediaList>
-      </MediaSection>
+      {playlistData.series && (
+        <ScrollableSection
+          title="TV Series"
+          type="tv"
+          data={playlistData.series}
+          fallback="Ops, no tv series here :("
+        />
+      )}
     </Container>
   );
 };

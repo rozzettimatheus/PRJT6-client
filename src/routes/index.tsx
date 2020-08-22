@@ -12,11 +12,12 @@ import ResetPassword from '../pages/auth/public/ResetPassword';
 import Page404 from '../pages/auth/public/404';
 
 import UpdateProfile from '../pages/auth/private/UpdateProfile';
+import ChangeEmail from '../pages/auth/private/ChangeEmail';
 import ChangePassword from '../pages/auth/private/ChangePassword';
 
 import Profile from '../pages/app/Profile';
-import PlaylistMovies from '../pages/app/Profile/PlaylistMovies';
-import PlaylistSeries from '../pages/app/Profile/PlaylistSeries';
+
+import ProfileUser from '../pages/app/ProfileUser';
 
 import Movies from '../pages/app/Movies';
 import MediaGrid from '../pages/app/MediaGrid';
@@ -40,6 +41,7 @@ const Routes: React.FC = () => (
 
     {/* private routes */}
     <Route path="/account/edit" component={UpdateProfile} isPrivate />
+    <Route path="/account/email/change" component={ChangeEmail} isPrivate />
     <Route
       path="/account/password/change"
       component={ChangePassword}
@@ -47,16 +49,6 @@ const Routes: React.FC = () => (
     />
 
     <Route exact path="/profile" component={Profile} isPrivate />
-    <Route
-      path="/profile/:playlist/movies"
-      component={PlaylistMovies}
-      isPrivate
-    />
-    <Route
-      path="/profile/:playlist/tvseries"
-      component={PlaylistSeries}
-      isPrivate
-    />
 
     <Route exact path="/movies" component={Movies} isPrivate />
     <Route path="/movies/:genre" component={MediaGrid} isPrivate />
@@ -69,6 +61,8 @@ const Routes: React.FC = () => (
 
     <Route exact path="/playlists" component={Playlists} isPrivate />
     <Route path="/playlists/:id" component={PlaylistDetails} isPrivate />
+
+    <Route path="/profiles/:id" component={ProfileUser} isPrivate />
 
     <Route path="/search" component={Search} isPrivate />
 

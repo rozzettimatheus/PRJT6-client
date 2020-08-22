@@ -121,7 +121,7 @@ const TVSeries: React.FC = () => {
         <ScrollableSection
           key={section.title}
           title={section.title}
-          type="tvseries"
+          type="tv"
           data={section.series}
         />
       ))}

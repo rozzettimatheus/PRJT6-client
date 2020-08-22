@@ -1,7 +1,5 @@
 import React, { useState, useCallback } from 'react';
 
-import { useAuth } from '../../hooks/auth';
-
 import avatar from '../../assets/avatar.png';
 
 import {
@@ -13,18 +11,27 @@ import {
   UserInfo,
 } from './styles';
 
-interface NumberProps {
+interface ProfileHeaderProps {
   followers: number;
   following: number;
   playlists: number;
+  image: string | null;
+  fullname: string;
+  username: string;
+  description: string | null;
+  self?: boolean;
 }
 
-const ProfileHeader: React.FC<NumberProps> = ({
+const ProfileHeader: React.FC<ProfileHeaderProps> = ({
   followers,
   following,
   playlists,
+  image,
+  description,
+  fullname,
+  username,
+  self,
 }) => {
-  const { user } = useAuth();
   const [subscription, setSubscription] = useState(false);
 
   const toggleSubscription = useCallback(() => {
@@ -36,21 +43,30 @@ const ProfileHeader: React.FC<NumberProps> = ({
       <AvatarContainer>
         <div>
           <div>
-            <img src={user.avatar ? user.avatar : avatar} alt={user.fullname} />
+            <img
+              src={
+                image
+                  ? `https://cineplus.herokuapp.com/imagens/${image}`
+                  : avatar
+              }
+              alt={fullname}
+            />
           </div>
         </div>
       </AvatarContainer>
 
       <UserSection>
         <UsernameContainer>
-          <h2>{user.fullname}</h2>
-          <button
-            type="button"
-            className={subscription ? 'active' : ''}
-            onClick={toggleSubscription}
-          >
-            {subscription ? 'Seguindo' : 'Seguir'}
-          </button>
+          <h2>{fullname}</h2>
+          {!self && (
+            <button
+              type="button"
+              className={subscription ? 'active' : ''}
+              onClick={toggleSubscription}
+            >
+              {subscription ? 'Seguindo' : 'Seguir'}
+            </button>
+          )}
         </UsernameContainer>
         <UserList>
           <li>
@@ -70,8 +86,8 @@ const ProfileHeader: React.FC<NumberProps> = ({
           </li>
         </UserList>
         <UserInfo>
-          <h1>{user.username}</h1>
-          <p>{user.description}</p>
+          <h1>{username}</h1>
+          <p>{description || ''}</p>
         </UserInfo>
       </UserSection>
     </Container>

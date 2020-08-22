@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import { lighten } from 'polished';
-import { Link } from 'react-router-dom';
 
 export const Header = styled.div`
   width: 100%;
@@ -19,7 +18,7 @@ export const Header = styled.div`
   h2 {
     color: var(--text-accent);
     font-size: 2.6rem;
-    margin-bottom: 2.1rem;
+    margin-bottom: 3.1rem;
     letter-spacing: 0.3px;
   }
 
@@ -129,59 +128,13 @@ export const AvatarUser = styled.button`
   }
 `;
 
-export const MediaSection = styled.section`
+export const Empty = styled.div`
   width: 100%;
   display: flex;
-  flex-direction: column;
-  margin-bottom: 25px;
-`;
-
-export const MediaList = styled.div`
-  display: flex;
-  border-top: 2px solid var(--border-color);
-  padding-top: 2.5rem;
-  height: 300px;
-
-  overflow-x: auto;
-
-  ::-webkit-scrollbar {
-    width: 15px;
-  }
-
-  ::-webkit-scrollbar-track {
-    background: var(--bg);
-  }
-
-  ::-webkit-scrollbar-thumb {
-    background-color: var(--border-color);
-    border-radius: var(--border-radius);
-    transition: background-color 0.2s;
-  }
-
-  ::-webkit-scrollbar-thumb:hover {
-    background-color: ${lighten(0.06, '#3a3a3a')};
-  }
-`;
-
-export const MediaCard = styled(Link)`
-  min-width: 168px;
-  height: 225px;
-  display: flex;
+  align-items: center;
   justify-content: center;
-  position: relative;
-  border: 0;
-  border-radius: var(--border-radius);
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  overflow: hidden;
-  transition: transform 0.3s ease;
 
-  &:hover {
-    transform: translateY(-7px);
-  }
-
-  & + a {
-    margin-left: 42px;
+  p {
+    color: var(--text-darken);
   }
 `;

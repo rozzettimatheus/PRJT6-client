@@ -5,7 +5,9 @@ import api from '../../../services/api';
 
 import Loader from '../../../components/Loader';
 import Container from '../../../components/Container';
-import { Header, Grid, PosterCard } from './styles';
+import Card from '../../../components/Card';
+
+import { Header, Grid } from './styles';
 
 interface GenreParams {
   genre: string;
@@ -18,6 +20,7 @@ interface PosterData {
 
 const MediaGrid: React.FC = () => {
   const [loading, setLoading] = useState(false);
+  const [t, setT] = useState('');
   const { params } = useRouteMatch<GenreParams>();
   const location = useLocation();
   const [posters, setPosters] = useState<PosterData[]>([]);
@@ -38,6 +41,8 @@ const MediaGrid: React.FC = () => {
     if (location.pathname.search('tvseries') >= 0) {
       type = 'tv';
     }
+
+    setT(type);
 
     api
       .get(`/${type}/bygenre/${param.get('page')}/${param.get('id')}`)
@@ -65,13 +70,15 @@ const MediaGrid: React.FC = () => {
 
       <Grid>
         {posters.map(poster => (
-          <PosterCard
+          <Card
             key={poster.id}
-            onClick={() => console.log('ola')}
-            style={{ backgroundImage: `url(${poster.poster_path})` }}
+            item={poster}
+            mediaType={t === 'movies' ? 'movie' : 'tv'}
           />
         ))}
       </Grid>
+
+      <div style={{ height: '20px' }} />
     </Container>
   );
 };

@@ -102,7 +102,7 @@ export const DropdownMenu = styled.div`
   }
 
   ::-webkit-scrollbar {
-    width: 15px;
+    width: 10px;
   }
 
   ::-webkit-scrollbar-track {

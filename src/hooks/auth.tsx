@@ -2,12 +2,21 @@ import React, { createContext, useCallback, useState, useContext } from 'react';
 
 import api from '../services/api';
 
+interface Profile {
+  id: number;
+  description: string | null;
+  email: string;
+  fullname: string;
+  image: string | null;
+}
+
 interface User {
   id: number;
+  profile: Profile;
+  followers: Array<object>;
+  following: Array<object>;
+  playlists: Array<object>;
   username: string;
-  fullname: string;
-  avatar: string | null;
-  description: string | null;
 }
 
 interface AuthData {
@@ -24,6 +33,7 @@ interface AuthContextData {
   user: User;
   signIn(credentials: SignInCredentials): Promise<void>;
   signOut(): void;
+  updateUser(user: User): void;
 }
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
@@ -63,17 +73,7 @@ export const AuthProvider: React.FC = ({ children }) => {
 
     const userResponse = await api.get('/user/details');
 
-    const {
-      profile: { id, fullname, email, description, image },
-    } = userResponse.data;
-
-    const user: User = {
-      id,
-      fullname,
-      username: email,
-      description,
-      avatar: image,
-    };
+    const user = userResponse.data;
 
     localStorage.setItem('@CinePlus:token', access_token);
     localStorage.setItem('@CinePlus:user', JSON.stringify(user));
@@ -88,8 +88,26 @@ export const AuthProvider: React.FC = ({ children }) => {
     setData({} as AuthData);
   }, []);
 
+  const updateUser = useCallback(
+    (user: User) => {
+      const access_token = localStorage.getItem('@CinePlus:token');
+
+      localStorage.setItem('@CinePlus:user', JSON.stringify(user));
+
+      if (access_token) {
+        setData({
+          access_token,
+          user,
+        });
+      }
+    },
+    [setData],
+  );
+
   return (
-    <AuthContext.Provider value={{ user: data.user, signIn, signOut }}>
+    <AuthContext.Provider
+      value={{ user: data.user, signIn, signOut, updateUser }}
+    >
       {children}
     </AuthContext.Provider>
   );

@@ -44,14 +44,19 @@ const Register: React.FC = () => {
         setLoading(true);
         formRef.current?.setErrors({});
         const schema = Yup.object().shape({
-          username: Yup.string()
-            .required('E-mail required')
-            .email('Invalid e-mail'),
-          password: Yup.string().min(6, 'At least 6 characters'),
-          password_confirmation: Yup.string().oneOf(
-            [Yup.ref('password'), null],
-            `Passwords don't match`,
-          ),
+          old_password: Yup.string(),
+          password: Yup.string().when('old_password', {
+            is: val => !!val.length,
+            then: Yup.string().required('Campo obrigatório'),
+            otherwise: Yup.string(),
+          }),
+          password_confirmation: Yup.string()
+            .when('old_password', {
+              is: val => !!val.length,
+              then: Yup.string().required('Campo obrigatório'),
+              otherwise: Yup.string(),
+            })
+            .oneOf([Yup.ref('password'), null], 'Confirmação incorreta'),
         });
 
         await schema.validate(data, {

@@ -100,7 +100,10 @@ const Header: React.FC = () => {
             onClick={handleToggleDropdown}
             type="button"
           >
-            <img src={user.avatar || avatar} alt={user.fullname} />
+            <img
+              src={user.profile.image || avatar}
+              alt={user.profile.fullname}
+            />
 
             {open && (
               <DropdownMenu>

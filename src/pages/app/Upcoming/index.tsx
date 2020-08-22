@@ -5,7 +5,9 @@ import api from '../../../services/api';
 
 import Loader from '../../../components/Loader';
 import Container from '../../../components/Container';
-import { Content, Header, Grid, PosterCard } from './styles';
+import Card from '../../../components/Card';
+
+import { Header, Grid } from '../MediaGrid/styles';
 
 interface PosterData {
   id: number;
@@ -41,21 +43,17 @@ const Upcoming: React.FC = () => {
 
   return (
     <Container>
-      <Content>
-        <Header>
-          <h2>Upcoming Movies</h2>
-        </Header>
+      <Header>
+        <h2>Upcoming Movies</h2>
+      </Header>
 
-        <Grid>
-          {posters.map(poster => (
-            <PosterCard
-              key={poster.id}
-              onClick={() => console.log('ola')}
-              style={{ backgroundImage: `url(${poster.poster_path})` }}
-            />
-          ))}
-        </Grid>
-      </Content>
+      <Grid>
+        {posters.map(poster => (
+          <Card key={poster.id} item={poster} mediaType="movie" />
+        ))}
+      </Grid>
+
+      <div style={{ height: '20px' }} />
     </Container>
   );
 };

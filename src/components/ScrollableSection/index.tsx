@@ -1,6 +1,8 @@
 import React from 'react';
 
-import { Section, Title, List, Card } from './styles';
+import Card from '../Card';
+
+import { Section, Title, List, Empty } from './styles';
 
 interface Media {
   id: number;
@@ -10,13 +12,15 @@ interface Media {
 interface ScrollSectionProps {
   title: string;
   data: Array<Media>;
-  type: 'tvseries' | 'movie';
+  type: 'tv' | 'movie';
+  fallback?: string;
 }
 
 const ScrollableSection: React.FC<ScrollSectionProps> = ({
   title,
   data,
   type,
+  fallback,
 }) => {
   return (
     <Section>
@@ -25,14 +29,13 @@ const ScrollableSection: React.FC<ScrollSectionProps> = ({
       </Title>
 
       <List>
-        {data &&
-          data.map(media => (
-            <Card
-              key={media.id}
-              style={{ backgroundImage: `url(${media.poster_path})` }}
-              to={`/${type}/${media.id}`}
-            />
-          ))}
+        {data.length ? (
+          data.map(media => <Card item={media} mediaType={type} />)
+        ) : (
+          <Empty>
+            <p>{fallback}</p>
+          </Empty>
+        )}
       </List>
     </Section>
   );

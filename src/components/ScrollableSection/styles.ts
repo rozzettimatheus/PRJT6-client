@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
 import { lighten } from 'polished';
 
 export const Section = styled.section`
@@ -31,8 +30,12 @@ export const List = styled.div`
 
   overflow-x: auto;
 
+  a + a {
+    margin-left: 42px;
+  }
+
   ::-webkit-scrollbar {
-    width: 15px;
+    height: 10px;
   }
 
   ::-webkit-scrollbar-track {
@@ -41,7 +44,7 @@ export const List = styled.div`
 
   ::-webkit-scrollbar-thumb {
     background-color: var(--border-color);
-    border-radius: var(--border-radius);
+    border-radius: 2px;
     transition: background-color 0.2s;
   }
 
@@ -50,25 +53,13 @@ export const List = styled.div`
   }
 `;
 
-export const Card = styled(Link)`
-  min-width: 168px;
-  height: 225px;
+export const Empty = styled.div`
+  width: 100%;
   display: flex;
+  align-items: center;
   justify-content: center;
-  position: relative;
-  border: 0;
-  border-radius: var(--border-radius);
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  overflow: hidden;
-  transition: transform 0.3s ease;
 
-  &:hover {
-    transform: translateY(-7px);
-  }
-
-  & + a {
-    margin-left: 42px;
+  p {
+    color: var(--text-darken);
   }
 `;

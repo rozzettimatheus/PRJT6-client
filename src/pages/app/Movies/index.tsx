@@ -96,6 +96,7 @@ const Movies: React.FC = () => {
       <Header>
         <h1>Top Movies</h1>
       </Header>
+
       <GenresContainer>
         <GenresSelect ref={buttonRef} onClick={handleToggleDropdown}>
           Search for
