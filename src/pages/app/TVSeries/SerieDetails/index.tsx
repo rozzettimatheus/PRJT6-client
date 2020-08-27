@@ -16,8 +16,8 @@ import {
   Title,
   Year,
   Genres,
+  Seasons,
   Overview,
-  Runtime,
 } from './styles';
 
 interface Genre {
@@ -25,50 +25,57 @@ interface Genre {
   name: string;
 }
 
-interface MovieData {
+interface SerieData {
   id: number;
-  title: string;
+  name: string;
   poster_path: string;
   overview: string;
-  year: number;
+  year_start: number;
+  year_end: number;
   genres: Array<Genre>;
-  runtime: number;
+  seasons: number;
+  episodes: number;
 }
 
-const MovieDetails: React.FC = () => {
-  const [addModal, setAddModal] = useState(false);
+const SerieDetails: React.FC = () => {
   const { pathname } = useLocation();
-  const [movie, setMovie] = useState<MovieData>({} as MovieData);
+  const [addModal, setAddModal] = useState(false);
+  const [serie, setSerie] = useState<SerieData>({} as SerieData);
 
   useEffect(() => {
-    const movieId = pathname.split('/').slice(-1)[0];
+    const serieId = pathname.split('/').slice(-1)[0];
 
-    api.get(`/movies/detail/${movieId}`).then(response => {
+    api.get(`/tv/detail/${serieId}`).then(response => {
       const {
-        title,
+        name,
         poster_path,
-        runtime,
-        genres,
         overview,
+        first_air_date,
+        last_air_date,
+        number_of_seasons,
+        number_of_episodes,
+        genres,
         id,
-        release_date,
       } = response.data;
 
-      const year = new Date(release_date).getFullYear();
+      const year_start = new Date(first_air_date).getFullYear();
+      const year_end = new Date(last_air_date).getFullYear();
 
-      setMovie({
-        title,
+      setSerie({
+        name,
         poster_path,
-        runtime,
-        genres,
         overview,
+        year_start,
+        year_end,
+        seasons: number_of_seasons,
+        episodes: number_of_episodes,
+        genres,
         id,
-        year,
       });
     });
   }, [pathname]);
 
-  if (!movie.title) {
+  if (!serie.name) {
     return <Loader />;
   }
 
@@ -76,12 +83,12 @@ const MovieDetails: React.FC = () => {
     <Container>
       <Wrapper>
         <ImageContainer>
-          <img src={movie.poster_path} alt={movie.title} />
+          <img src={serie.poster_path} alt={serie.name} />
         </ImageContainer>
 
         <Content>
           <Title>
-            <h1>{movie.title}</h1>
+            <h1>{serie.name}</h1>
           </Title>
 
           <AddButton onClick={() => setAddModal(true)} type="button">
@@ -90,14 +97,21 @@ const MovieDetails: React.FC = () => {
           </AddButton>
 
           <Year>
-            <strong>{movie.year}</strong>
+            <strong>
+              {serie.year_start} / {serie.year_end}
+            </strong>
           </Year>
 
+          <Seasons>
+            <span>{serie.seasons} Seasons</span>
+            <span>{serie.episodes} Episodes</span>
+          </Seasons>
+
           <Genres>
-            {movie.genres.map(genre => (
+            {serie.genres.map(genre => (
               <Link
                 key={genre.id}
-                to={`/movies/${genre.name.toLocaleLowerCase()}?id=${
+                to={`/tvseries/${genre.name.toLocaleLowerCase()}?id=${
                   genre.id
                 }&page=1`}
               >
@@ -108,13 +122,8 @@ const MovieDetails: React.FC = () => {
 
           <Overview>
             <h4>Overview</h4>
-            <p>{movie.overview}</p>
+            <p>{serie.overview}</p>
           </Overview>
-
-          <Runtime>
-            <span>Runtime: </span>
-            <strong>{movie.runtime} minutes</strong>
-          </Runtime>
         </Content>
       </Wrapper>
 
@@ -123,4 +132,4 @@ const MovieDetails: React.FC = () => {
   );
 };
 
-export default MovieDetails;
+export default SerieDetails;

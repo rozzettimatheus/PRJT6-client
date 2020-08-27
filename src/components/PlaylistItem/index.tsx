@@ -23,6 +23,7 @@ interface Props {
   followers: number;
   isPrivate?: boolean;
   isDeletable?: boolean;
+  onDelete?: any;
 }
 
 const PlaylistItem: React.FC<Props> = ({
@@ -32,6 +33,7 @@ const PlaylistItem: React.FC<Props> = ({
   followers,
   isPrivate,
   isDeletable,
+  onDelete,
 }) => {
   const formatItems = useMemo(
     () => (items === 1 ? 'saved item' : 'saved items'),
@@ -77,7 +79,7 @@ const PlaylistItem: React.FC<Props> = ({
         </PlaylistInfoContainer>
         {isDeletable && (
           <Delete>
-            <button type="button" onClick={() => console.log('excluiu')}>
+            <button type="button" onClick={onDelete}>
               <DeleteIcon />
             </button>
           </Delete>

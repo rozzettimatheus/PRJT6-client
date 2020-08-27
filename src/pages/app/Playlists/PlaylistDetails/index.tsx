@@ -1,19 +1,25 @@
-import React, { useState, useEffect } from 'react';
-import { useRouteMatch, useHistory } from 'react-router-dom';
+import React, { useState, useEffect, useCallback } from 'react';
+import { useRouteMatch, useHistory, useLocation } from 'react-router-dom';
+
 import api from '../../../../services/api';
+import { useAuth } from '../../../../hooks/auth';
 
 import Container from '../../../../components/Container';
 import ScrollableSection from '../../../../components/ScrollableSection';
+import EditPlaylistNameModal from '../../../../components/EditPlaylistNameModal';
 
 import avatar from '../../../../assets/avatar.png';
 
 import {
   Header,
+  EditButton,
+  EditIcon,
   FollowersSection,
   Title,
   FollowersList,
   AvatarUser,
   Empty,
+  FollowButton,
 } from './styles';
 
 import Loader from '../../../../components/Loader';
@@ -33,6 +39,7 @@ interface Item {
   id: number;
   itemType: string;
   poster_path: string;
+  movietvshowId: number;
 }
 
 interface PlaylistResponse {
@@ -48,15 +55,45 @@ interface PlaylistResponse {
 }
 
 const PlaylistDetails: React.FC = () => {
+  const { user, updateUser } = useAuth();
+  const { pathname } = useLocation();
+  const [playlistId] = useState(() => {
+    const [, , id] = pathname.split('/');
+
+    return Number(id);
+  });
   const history = useHistory();
-  const [loading, setLoading] = useState(false);
   const { params } = useRouteMatch<RouteParam>();
+  const [own, setOwn] = useState(false);
+  const [editModal, setEditModal] = useState(false);
   const [playlistData, setPlaylistData] = useState<PlaylistResponse>(
     {} as PlaylistResponse,
   );
+  const [isSubscribed, setSubscription] = useState(() => {
+    const playlistId = Number(pathname.split('/').slice(-1)[0]);
+
+    const playlist = user.playlists.find(item => item.id === playlistId);
+
+    return !!playlist;
+  });
+
+  const toggleSubscription = useCallback(async () => {
+    const playlistId = Number(pathname.split('/').slice(-1)[0]);
+
+    if (!isSubscribed) {
+      await api.post(`playlist/follow/${playlistId}`);
+    } else {
+      await api.delete(`playlist/unfollow/${playlistId}`);
+    }
+
+    setSubscription(!isSubscribed);
+
+    const { data } = await api.get('user/details');
+
+    updateUser(data);
+  }, [pathname, isSubscribed, updateUser]);
 
   useEffect(() => {
-    setLoading(true);
     api.get(`playlist/detail/${params.id}`).then(response => {
       const {
         id,
@@ -65,6 +102,10 @@ const PlaylistDetails: React.FC = () => {
         items,
         playlistfollowers: playlistFollowers,
       } = response.data;
+
+      if (userId === user.id) {
+        setOwn(true);
+      }
 
       const movies = items.filter(
         (item: Item) => item.itemType.toLocaleLowerCase() === 'movie',
@@ -86,18 +127,33 @@ const PlaylistDetails: React.FC = () => {
         playlistFollowers,
       });
     });
+  }, [params.id, user.id, editModal]);
 
-    setLoading(false);
-  }, [params.id]);
-
-  if (loading) {
+  if (!playlistData.name) {
     return <Loader />;
   }
 
   return (
     <Container>
       <Header>
-        <h2>{playlistData.name}</h2>
+        <h2>
+          {playlistData.name}
+          {own && (
+            <EditButton onClick={() => setEditModal(true)} type="button">
+              <EditIcon />
+            </EditButton>
+          )}
+        </h2>
+
+        {!own && (
+          <FollowButton
+            className={isSubscribed ? 'active' : ''}
+            type="button"
+            onClick={toggleSubscription}
+          >
+            {isSubscribed ? 'Following' : 'Follow'}
+          </FollowButton>
+        )}
 
         <div>
           <span>
@@ -155,6 +211,10 @@ const PlaylistDetails: React.FC = () => {
           type="movie"
           data={playlistData.movies}
           fallback="Ops, no movies here :("
+          deleteProps={{
+            deletable: own,
+          }}
+          playId={playlistId}
         />
       )}
 
@@ -164,6 +224,18 @@ const PlaylistDetails: React.FC = () => {
           type="tv"
           data={playlistData.series}
           fallback="Ops, no tv series here :("
+          playId={playlistId}
+          deleteProps={{
+            deletable: own,
+          }}
+        />
+      )}
+
+      {own && (
+        <EditPlaylistNameModal
+          close={() => setEditModal(false)}
+          isOpen={editModal}
+          current={{ id: playlistData.id, name: playlistData.name }}
         />
       )}
     </Container>

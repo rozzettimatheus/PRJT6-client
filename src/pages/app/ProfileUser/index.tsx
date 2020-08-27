@@ -1,10 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState, useEffect } from 'react';
 import { useRouteMatch } from 'react-router-dom';
-import { Play, Add, CodeSlash } from '@styled-icons/ionicons-outline';
+import { Play } from '@styled-icons/ionicons-outline';
 
 import api from '../../../services/api';
-
-import { useAuth } from '../../../hooks/auth';
 
 import Container from '../../../components/Container';
 import ProfileHeader from '../../../components/ProfileHeader';
@@ -15,7 +14,6 @@ import {
   Main,
   PlaylistHeader,
   PlaylistHead,
-  PlaylistButtonContainer,
   PlaylistsContainer,
   NotFound,
 } from './styles';
@@ -50,13 +48,11 @@ interface User {
 }
 
 const ProfileUser: React.FC = () => {
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [person, setPerson] = useState<User>({} as User);
   const { params } = useRouteMatch<UserParams>();
 
   useEffect(() => {
-    setLoading(true);
     async function getData(): Promise<void> {
       const { data } = await api.get(`user/detail/${params.id}`);
 
@@ -100,16 +96,13 @@ const ProfileUser: React.FC = () => {
         playlists: playlistsArray,
       };
 
-      console.log(user);
-
       setPerson(user);
     }
 
     getData();
-    setLoading(false);
   }, [params]);
 
-  if (loading) {
+  if (!person.username) {
     return <Loader />;
   }
 
@@ -166,6 +159,8 @@ const ProfileUser: React.FC = () => {
           </Main>
         </>
       )}
+
+      <div style={{ marginBottom: '30px' }} />
     </Container>
   );
 };

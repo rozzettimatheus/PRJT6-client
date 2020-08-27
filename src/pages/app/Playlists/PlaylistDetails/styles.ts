@@ -1,5 +1,6 @@
 import styled from 'styled-components';
-import { lighten } from 'polished';
+import { Edit } from '@styled-icons/boxicons-regular';
+import { lighten, shade } from 'polished';
 
 export const Header = styled.div`
   width: 100%;
@@ -38,6 +39,27 @@ export const Header = styled.div`
       }
     }
   }
+`;
+
+export const EditButton = styled.button`
+  margin-left: 12px;
+  height: 25px;
+  width: 25px;
+  border: 0;
+  background-color: transparent;
+
+  &:hover {
+    svg {
+      opacity: 0.7;
+    }
+  }
+`;
+
+export const EditIcon = styled(Edit)`
+  height: 20px;
+  width: 20px;
+  color: var(--text);
+  transition: opacity 0.2s;
 `;
 
 export const FollowersSection = styled.section`
@@ -114,6 +136,7 @@ export const AvatarUser = styled.button`
     margin-top: 12px;
     border-radius: 50%;
     height: 80px;
+    width: 80px;
   }
 
   > span {
@@ -136,5 +159,28 @@ export const Empty = styled.div`
 
   p {
     color: var(--text-darken);
+  }
+`;
+
+export const FollowButton = styled.button`
+  background: var(--purple);
+  border: 2px solid var(--purple);
+  color: var(--white);
+  border-radius: var(--border-radius);
+  height: 29px;
+  padding: 7px 16px;
+  display: flex;
+  align-items: center;
+  transition: all 0.2s;
+  margin-bottom: 1.8rem;
+
+  &:hover {
+    background: ${shade(0.2, '#bb86fc')};
+    border-color: ${shade(0.2, '#bb86fc')};
+  }
+
+  &.active {
+    background-color: transparent;
+    color: var(--purple);
   }
 `;

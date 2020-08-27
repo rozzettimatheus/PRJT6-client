@@ -7,7 +7,7 @@ import {
   PlayCircle,
   Search,
 } from '@styled-icons/boxicons-regular';
-import { User, Adjustments, Share } from '@styled-icons/heroicons-outline';
+import { User, Adjustments } from '@styled-icons/heroicons-outline';
 
 import { useAuth } from '../../hooks/auth';
 
@@ -23,7 +23,6 @@ import {
   NavIcons,
   LogoContainer,
   DropdownMenu,
-  ShareButton,
 } from './styles';
 
 const Header: React.FC = () => {
@@ -101,7 +100,11 @@ const Header: React.FC = () => {
             type="button"
           >
             <img
-              src={user.profile.image || avatar}
+              src={
+                user.profile.image
+                  ? `https://cineplus.herokuapp.com/imagens/${user.profile.image}`
+                  : avatar
+              }
               alt={user.profile.fullname}
             />
 
@@ -113,10 +116,6 @@ const Header: React.FC = () => {
                   icon={Adjustments}
                   title="Settings"
                 />
-                <ShareButton type="button">
-                  <Share />
-                  Share
-                </ShareButton>
                 <DropdownItem
                   page="/"
                   title="Log out"

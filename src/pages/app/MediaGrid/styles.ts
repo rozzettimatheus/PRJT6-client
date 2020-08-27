@@ -1,4 +1,6 @@
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
+import { ChevronLeft, ChevronRight } from '@styled-icons/heroicons-outline';
 
 export const Header = styled.header`
   max-width: var(--max-width);
@@ -24,4 +26,34 @@ export const Grid = styled.main`
   justify-content: center;
   justify-items: center;
   grid-template-columns: repeat(auto-fit, minmax(168px, 1fr));
+`;
+
+export const Pagination = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.2rem;
+  margin: 1.8rem 0;
+`;
+
+export const Paginate = styled(Link)`
+  display: flex;
+  align-items: center;
+  color: var(--text);
+  font-size: 1.6rem;
+  text-transform: uppercase;
+  font-weight: 700;
+`;
+
+export const LeftArrow = styled(ChevronLeft)`
+  height: 30px;
+  color: var(--text);
+  margin-right: 8px;
+`;
+
+export const RightArrow = styled(ChevronRight)`
+  height: 30px;
+  color: var(--text);
+  margin-left: 8px;
 `;

@@ -22,6 +22,7 @@ export const AvatarContainer = styled.div`
       padding-top: 5px;
       img {
         height: 150px;
+        width: 150px;
         border-radius: 50%;
       }
     }
@@ -84,6 +85,14 @@ export const UserList = styled.ul`
 
     strong {
       font-weight: 700;
+    }
+
+    button {
+      background: transparent;
+      border: 0;
+      color: var(--text);
+      font-size: 18px;
+      font-weight: 400;
     }
   }
 `;

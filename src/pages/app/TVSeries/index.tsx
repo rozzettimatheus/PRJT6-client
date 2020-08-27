@@ -25,6 +25,7 @@ interface GenresData {
 interface SeriePosterData {
   id: number;
   poster_path: string;
+  movietvshowId: number;
 }
 
 interface SeriesSectionData {

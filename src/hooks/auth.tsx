@@ -13,9 +13,9 @@ interface Profile {
 interface User {
   id: number;
   profile: Profile;
-  followers: Array<object>;
-  following: Array<object>;
-  playlists: Array<object>;
+  followers: Array<any>;
+  following: Array<any>;
+  playlists: Array<any>;
   username: string;
 }
 
@@ -30,6 +30,7 @@ interface SignInCredentials {
 }
 
 interface AuthContextData {
+  access_token: string;
   user: User;
   signIn(credentials: SignInCredentials): Promise<void>;
   signOut(): void;
@@ -106,7 +107,13 @@ export const AuthProvider: React.FC = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ user: data.user, signIn, signOut, updateUser }}
+      value={{
+        user: data.user,
+        access_token: data.access_token,
+        signIn,
+        signOut,
+        updateUser,
+      }}
     >
       {children}
     </AuthContext.Provider>

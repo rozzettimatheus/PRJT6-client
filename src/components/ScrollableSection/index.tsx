@@ -7,6 +7,12 @@ import { Section, Title, List, Empty } from './styles';
 interface Media {
   id: number;
   poster_path: string;
+  movietvshowId: number;
+}
+
+interface Delete {
+  deletable: boolean;
+  // onClick: () => void;
 }
 
 interface ScrollSectionProps {
@@ -14,6 +20,8 @@ interface ScrollSectionProps {
   data: Array<Media>;
   type: 'tv' | 'movie';
   fallback?: string;
+  deleteProps?: Delete;
+  playId?: number;
 }
 
 const ScrollableSection: React.FC<ScrollSectionProps> = ({
@@ -21,6 +29,8 @@ const ScrollableSection: React.FC<ScrollSectionProps> = ({
   data,
   type,
   fallback,
+  deleteProps,
+  playId,
 }) => {
   return (
     <Section>
@@ -30,7 +40,15 @@ const ScrollableSection: React.FC<ScrollSectionProps> = ({
 
       <List>
         {data.length ? (
-          data.map(media => <Card item={media} mediaType={type} />)
+          data.map(media => (
+            <Card
+              isDeletable={deleteProps?.deletable}
+              key={media.id}
+              item={media}
+              mediaType={type}
+              playlist={playId}
+            />
+          ))
         ) : (
           <Empty>
             <p>{fallback}</p>

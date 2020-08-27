@@ -84,6 +84,7 @@ export const NavIcons = styled.div`
 
     img {
       height: 30px;
+      width: 30px;
       border-radius: 50%;
     }
 
@@ -128,36 +129,4 @@ export const DropdownMenu = styled.div`
   z-index: 100;
 
   animation: ${appearFromLeft} 0.4s;
-`;
-
-export const ShareButton = styled.button`
-  height: 40px;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  padding: 10px;
-  border: 0;
-  transition: background-color 0.3s;
-  padding: 13px 15px;
-  font-size: 14px;
-  color: var(--text);
-  transition: all 0.3s;
-  background: transparent;
-
-  svg {
-    height: 20px;
-    width: 20px;
-    margin-right: 10px;
-    color: var(--text);
-    transition: all 0.3s;
-  }
-
-  &:hover {
-    background-color: var(--hover-color);
-    color: var(--white);
-
-    svg {
-      color: var(--white);
-    }
-  }
 `;

@@ -89,15 +89,9 @@ const Profile: React.FC = () => {
       if (e.target.files) {
         const data = new FormData();
 
-        data.append('avatar', e.target.files[0]);
+        data.append('image', e.target.files[0]);
 
-        const { fullname, description } = profile;
-
-        await api.post('registerprofile', {
-          fullname,
-          description,
-          avatar: data,
-        });
+        await api.post('/registerprofile/image', data);
 
         await api.get('/user/details').then(response => {
           updateUser(response.data);
@@ -109,7 +103,7 @@ const Profile: React.FC = () => {
         });
       }
     },
-    [addToast],
+    [addToast, updateUser],
   );
 
   return (
@@ -133,10 +127,17 @@ const Profile: React.FC = () => {
             onSubmit={handleSubmit}
           >
             <AvatarInput>
-              <img src={profile.image || avatar} alt={profile.fullname} />
-              <label htmlFor="avatar">
+              <img
+                src={
+                  profile.image
+                    ? `https://cineplus.herokuapp.com/imagens/${profile.image}`
+                    : avatar
+                }
+                alt={profile.fullname}
+              />
+              <label htmlFor="image">
                 <Camera />
-                <input type="file" id="avatar" onChange={handleAvatarChange} />
+                <input type="file" id="image" onChange={handleAvatarChange} />
               </label>
             </AvatarInput>
 

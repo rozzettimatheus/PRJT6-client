@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useRef, useEffect } from 'react';
 import ReactSelect, {
   OptionTypeBase,
@@ -42,6 +43,7 @@ interface Props extends SelectProps<OptionTypeBase> {
 }
 const Select: React.FC<Props> = ({ name, ...rest }) => {
   const selectRef = useRef(null);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { fieldName, defaultValue, registerField, error } = useField(name);
 
   useEffect(() => {

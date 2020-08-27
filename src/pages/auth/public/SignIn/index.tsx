@@ -101,8 +101,6 @@ const SignIn: React.FC = () => {
             <Button disabled={loading} loading={loading} type="submit">
               Login
             </Button>
-
-            <Link to="/forgot">Forgot password?</Link>
           </Form>
 
           <Link to="/register">

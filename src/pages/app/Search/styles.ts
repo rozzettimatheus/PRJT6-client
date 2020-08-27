@@ -68,22 +68,3 @@ export const QueryGrid = styled.section`
   justify-items: center;
   grid-template-columns: repeat(auto-fit, minmax(168px, 1fr));
 `;
-
-export const PosterCard = styled.button`
-  height: 225px;
-  width: 168px;
-  display: flex;
-  justify-content: center;
-  position: relative;
-  border: 0;
-  border-radius: var(--border-radius);
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  overflow: hidden;
-  transition: transform 0.3s ease;
-
-  &:hover {
-    transform: translateY(-7px);
-  }
-`;

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useCallback, useRef, useState } from 'react';
 import { Form } from '@unform/web';
 import { FormHandles } from '@unform/core';
@@ -17,9 +18,7 @@ import {
   SubmitButton,
   Query,
   QueryGrid,
-  PosterCard,
 } from './styles';
-import Loader from '../../../components/Loader';
 
 interface DataSearch {
   search: string;
@@ -42,6 +41,7 @@ interface PlaylistData {
 interface MediaData {
   id: number;
   poster_path: string;
+  movietvshowId: number;
   type: 'tv' | 'movie';
 }
 

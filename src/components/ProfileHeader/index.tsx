@@ -1,4 +1,11 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
+
+import { useAuth } from '../../hooks/auth';
+import api from '../../services/api';
+
+import FollowingModal from '../FollowingModal';
+import FollowersModal from '../FollowersModal';
 
 import avatar from '../../assets/avatar.png';
 
@@ -32,11 +39,38 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
   username,
   self,
 }) => {
-  const [subscription, setSubscription] = useState(false);
+  const { pathname } = useLocation();
+  const { user, updateUser } = useAuth();
 
-  const toggleSubscription = useCallback(() => {
+  const [id, setId] = useState('');
+  const [followingModal, setFollowingModal] = useState(false);
+  const [followersModal, setFollowersModal] = useState(false);
+
+  const [subscription, setSubscription] = useState(() => {
+    const userId = Number(pathname.split('/').slice(-1)[0]);
+    const found = user.following.find(follow => follow.id === userId);
+
+    return !!found;
+  });
+
+  useEffect(() => {
+    const userId = pathname.split('/').slice(-1)[0];
+
+    setId(userId);
+  }, [pathname]);
+
+  const toggleSubscription = useCallback(async () => {
+    if (subscription) {
+      await api.delete(`/user/unfollow/${id}`);
+    } else {
+      await api.post(`/user/follow/${id}`);
+    }
+
     setSubscription(!subscription);
-  }, [subscription]);
+
+    const { data } = await api.get('/user/details');
+    updateUser(data);
+  }, [id, subscription, updateUser]);
 
   return (
     <Container>
@@ -64,7 +98,7 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
               className={subscription ? 'active' : ''}
               onClick={toggleSubscription}
             >
-              {subscription ? 'Seguindo' : 'Seguir'}
+              {subscription ? 'Following' : 'Follow'}
             </button>
           )}
         </UsernameContainer>
@@ -75,14 +109,14 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
             </span>
           </li>
           <li>
-            <span>
-              <strong>{followers}</strong> seguidores
-            </span>
+            <button type="button" onClick={() => setFollowersModal(true)}>
+              <strong>{followers}</strong> followers
+            </button>
           </li>
           <li>
-            <span>
-              <strong>{following}</strong> seguindo
-            </span>
+            <button type="button" onClick={() => setFollowingModal(true)}>
+              <strong>{following}</strong> following
+            </button>
           </li>
         </UserList>
         <UserInfo>
@@ -90,6 +124,19 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
           <p>{description || ''}</p>
         </UserInfo>
       </UserSection>
+
+      {self && (
+        <FollowingModal
+          isOpen={followingModal}
+          close={() => setFollowingModal(false)}
+        />
+      )}
+      {self && (
+        <FollowersModal
+          isOpen={followersModal}
+          close={() => setFollowersModal(false)}
+        />
+      )}
     </Container>
   );
 };

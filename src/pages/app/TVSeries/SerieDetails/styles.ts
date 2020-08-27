@@ -29,6 +29,61 @@ export const Title = styled.div`
   }
 `;
 
+export const Year = styled.div`
+  strong {
+    color: var(--text);
+    font-size: 2.4rem;
+  }
+`;
+
+export const Genres = styled.div`
+  margin: 1.4rem 0;
+
+  a {
+    padding: 0.8rem 1.2rem;
+    background: var(--card-color);
+    margin-right: 12px;
+    border-radius: var(--border-radius);
+    color: var(--text);
+    transition: all 0.2s;
+
+    &:hover {
+      background: var(--purple);
+    }
+  }
+`;
+
+export const Seasons = styled.div`
+  margin-top: 1.3rem;
+  display: flex;
+
+  justify-content: flex-end;
+
+  span {
+    padding: 0.7rem;
+    background: var(--hover-color);
+    border-radius: var(--border-radius);
+    color: var(--text-darken);
+    margin: 1rem 12px 0 0;
+  }
+`;
+
+export const Overview = styled.div`
+  margin-top: 3.2rem;
+  overflow: hidden;
+
+  h4 {
+    font-size: 2.2rem;
+    color: var(--text);
+  }
+
+  p {
+    line-height: 2.4rem;
+    color: var(--text);
+    margin-top: 1.4rem;
+  }
+`;
+
 export const AddButton = styled.button`
   display: flex;
   align-items: center;
@@ -56,50 +111,4 @@ export const AddIcon = styled(ListPlus)`
   color: var(--text);
   margin-right: 8px;
   transition: opacity 0.2s;
-`;
-
-export const Year = styled.div`
-  margin: 1.3rem 0;
-
-  strong {
-    color: var(--text);
-    font-size: 2.4rem;
-  }
-`;
-
-export const Genres = styled.div`
-  margin: 1.4rem 0;
-
-  a {
-    padding: 0.8rem 1.2rem;
-    background: var(--card-color);
-    margin-right: 12px;
-    border-radius: var(--border-radius);
-    color: var(--text);
-    transition: all 0.2s;
-
-    &:hover {
-      background: var(--purple);
-    }
-  }
-`;
-
-export const Overview = styled.div`
-  margin-top: 3.2rem;
-
-  h4 {
-    font-size: 2.2rem;
-    color: var(--text);
-  }
-
-  p {
-    line-height: 2.4rem;
-    color: var(--text);
-    margin-top: 1.4rem;
-  }
-`;
-
-export const Runtime = styled.div`
-  margin-top: auto;
-  color: var(--text-darken);
 `;
